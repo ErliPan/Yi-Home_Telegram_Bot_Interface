@@ -8,13 +8,13 @@ class Telegram:
         self.config = config
         self.bot = telegram.Bot(config.TOKEN)
     
-    
+
     def sendPhoto(self, media, caption=""):
 
-        self.bot.sendVideo(self.config.CHATID, media, caption=caption, parse_mode="HTML")
+        self.bot.sendPhoto(self.config.CHATID, media, caption=caption, parse_mode="HTML")
 
     
-    def sendPhoto(self, media, caption=""):
+    def sendVideo(self, media, caption=""):
 
         self.bot.sendVideo(self.config.CHATID, media, caption=caption, parse_mode="HTML")
 

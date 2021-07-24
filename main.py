@@ -10,4 +10,8 @@ cam = IPCam(config, "10.10.10.54")
 
 
 r = cam.getImage()
-bot.sendPhoto(r)
+if r == False:
+    print("Camera offline")
+else:
+    #bot.sendPhoto(r)
+    cam.getVideoList(bot.sendVideo)
