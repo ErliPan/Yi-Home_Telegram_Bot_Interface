@@ -48,7 +48,7 @@ class IPCam:
                     self.ftp.delete(filePath)
             
                 try:
-                    self.ftp.rmd(dirPath) #ftplib.error_perm: 550 Can't remove directory: Directory not empty
+                    self.ftp.rmd(dirPath)
                 except error_perm:
                     pass
 
