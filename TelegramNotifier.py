@@ -1,13 +1,12 @@
-import config
 import telepot
 
-class TelegramNotifier:
+class Telegram:
 
     def __init__(self, config):
         self.config = config
         self.bot = telepot.Bot(config.TOKEN)
     
     def sendMessage(self, title, message=""):
-        text = "<b>{title}</b><br />{message}"
+        text = f"<strong>{title}</strong>\n{message}"
 
-        self.bot.sendMessage(config.CHATID, text, parse_mode="HTML")
+        self.bot.sendMessage(self.config.CHATID, text, parse_mode="HTML")
