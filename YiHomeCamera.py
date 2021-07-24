@@ -32,20 +32,20 @@ class IPCam:
         return "tmp.mp4.tmp" in ftp.nlst()
 
 
-    def getVideoList(self, videoFunc):
-        i = 0
+    def callbackVideoList(self, videoFunc):
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
-            self.ftp.cwd(f"{self.videoPath}/{folder}")
+            dirPath = f"{self.videoPath}/{folder}"
+            self.ftp.cwd(dirPath)
             for videoFile in self.ftp.nlst():
-                if i == 0:
-                    filepath = f"ftp://root:@{self.ip}//{self.videoPath}/{folder}/{videoFile}"
-                    print(filepath)
-                    videoObj = io.BytesIO(urllib.request.urlopen(filepath).read())
-                    videoFunc(videoObj)
-                    i = 2
-
-    #def getAllVideo(self):
+                filePath = f"/{self.videoPath}/{folder}/{videoFile}"
+                urlPath = f"ftp://root:@{self.ip}/{filePath}"
+                print(urlPath)
+                videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
+                videoFunc(videoObj)
+                self.ftp.delete(filePath)
+            
+            self.ftp.rmd(dirPath)
 
 
 
