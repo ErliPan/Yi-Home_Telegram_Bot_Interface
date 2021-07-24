@@ -28,24 +28,26 @@ class IPCam:
 
 
     def isRecording(self):
-        self.ftp.cwd(self.videoPath)
+        self.ftp.cwd(self.videoPath) #ConnectionResetError: [Errno 104] Connection reset by peer
         return "tmp.mp4.tmp" in self.ftp.nlst()
 
 
     def callbackVideoList(self, videoFunc):
+        videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
-            dirPath = f"{self.videoPath}/{folder}"
-            self.ftp.cwd(dirPath)
-            for videoFile in self.ftp.nlst():
-                filePath = f"/{self.videoPath}/{folder}/{videoFile}"
-                urlPath = f"ftp://root:@{self.ip}/{filePath}"
-                print(urlPath)
-                videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
-                videoFunc(videoObj)
-                self.ftp.delete(filePath)
+            if folder != "tmp.mp4.tmp":
+                dirPath = f"{self.videoPath}/{folder}"
+                self.ftp.cwd(dirPath)
+                for videoFile in self.ftp.nlst():
+                    filePath = f"/{self.videoPath}/{folder}/{videoFile}"
+                    urlPath = f"ftp://root:@{self.ip}/{filePath}"
+                    print(urlPath)
+                    videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
+                    videoFunc(videoObj)
+                    self.ftp.delete(filePath)
             
-            self.ftp.rmd(dirPath)
+            self.ftp.rmd(dirPath) #ftplib.error_perm: 550 Can't change directory to /tmp/sd/record/tmp.mp4.tmp: Not a directory
 
 
 
