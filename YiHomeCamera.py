@@ -29,7 +29,7 @@ class IPCam:
 
     def isRecording(self):
         self.ftp.cwd(self.videoPath)
-        return "tmp.mp4.tmp" in ftp.nlst()
+        return "tmp.mp4.tmp" in self.ftp.nlst()
 
 
     def callbackVideoList(self, videoFunc):
