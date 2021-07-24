@@ -1,4 +1,5 @@
 import requests
+import io
 
 class IPCam:
 
@@ -15,7 +16,10 @@ class IPCam:
 
         response = requests.get(url, timeout=self.config.SNAPSHOT_TIMEOUT)
 
-        return response.content if (response.headers.get("content-type") == "image/jpeg") else False
+        return io.BytesIO(response.content) if (response.headers.get("content-type") == "image/jpeg") else False
+
+
+
 
 
 

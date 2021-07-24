@@ -1,11 +1,24 @@
-import telepot
+from telegram import *
+from telegram.ext import *
+import telegram
 
 class Telegram:
 
     def __init__(self, config):
         self.config = config
-        self.bot = telepot.Bot(config.TOKEN)
+        self.bot = telegram.Bot(config.TOKEN)
     
+    
+    def sendPhoto(self, media, caption=""):
+
+        self.bot.sendVideo(self.config.CHATID, media, caption=caption, parse_mode="HTML")
+
+    
+    def sendPhoto(self, media, caption=""):
+
+        self.bot.sendVideo(self.config.CHATID, media, caption=caption, parse_mode="HTML")
+
+
     def sendMessage(self, title, message=""):
         text = f"<strong>{title}</strong>\n{message}"
 
