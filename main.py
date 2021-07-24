@@ -1,4 +1,6 @@
 from TelegramNotifier import Telegram
+from telegram import *
+from telegram.ext import *
 from YiHomeCamera import IPCam
 import config
 import time
@@ -9,7 +11,18 @@ bot = Telegram(config)
 cam = IPCam(config, "10.10.10.54")
 
 
+def getImmagine(update: Update, context: CallbackContext):
+    r = cam.getImage()
 
+    if r == True:
+        bot.sendMessage("Camera offline")
+    else:
+        bot.sendPhoto(r)
+
+botUpdater = Updater(config.TOKEN)
+dispatcher = botUpdater.dispatcher
+dispatcher.add_handler(CommandHandler("immagine", getImmagine))
+botUpdater.start_polling()
 
 print("start loop")
 rec = False
@@ -45,10 +58,3 @@ while True:
             time.sleep(2)
             print(f"{counter} sleep")
         rec = False
-        
-
-
-
-
-
-    

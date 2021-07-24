@@ -2,7 +2,7 @@ import requests
 import urllib.request
 import io
 import os
-from ftplib import FTP
+from ftplib import FTP, error_perm
 import time
 
 class IPCam:
@@ -49,7 +49,7 @@ class IPCam:
             
                 try:
                     self.ftp.rmd(dirPath) #ftplib.error_perm: 550 Can't remove directory: Directory not empty
-                except ftplib.error_perm:
+                except error_perm:
                     pass
 
 
