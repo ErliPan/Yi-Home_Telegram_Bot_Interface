@@ -47,7 +47,7 @@ class IPCam:
                     videoFunc(videoObj)
                     self.ftp.delete(filePath)
             
-            self.ftp.rmd(dirPath) #ftplib.error_perm: 550 Can't change directory to /tmp/sd/record/tmp.mp4.tmp: Not a directory
+                self.ftp.rmd(dirPath) #ftplib.error_perm: 550 Can't change directory to /tmp/sd/record/tmp.mp4.tmp: Not a directory
 
 
 
