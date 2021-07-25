@@ -8,6 +8,7 @@ import time
 class IPCam:
 
     videoPath = "/tmp/sd/record"
+    tmpFile = "tmp.mp4.tmp"
 
     def __init__(self, config, ip):
         self.ip = ip
@@ -29,14 +30,14 @@ class IPCam:
 
     def isRecording(self):
         self.ftp.cwd(self.videoPath) #ConnectionResetError: [Errno 104] Connection reset by peer
-        return "tmp.mp4.tmp" in self.ftp.nlst()
+        return self.tmpFile in self.ftp.nlst()
 
 
     def callbackVideoList(self, videoFunc):
         videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
-            if folder != "tmp.mp4.tmp":
+            if folder != self.tmpFile:
                 dirPath = f"{self.videoPath}/{folder}"
                 self.ftp.cwd(dirPath)
                 for videoFile in self.ftp.nlst():
