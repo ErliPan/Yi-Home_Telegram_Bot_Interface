@@ -15,30 +15,40 @@ class IPCam:
         self.recordingSize = -1
         self.counter = 0
 
-        self.__printLog("Create Timer")
+        if Camera.isConnected():
+            self.__sendMessage("Camera ONLINE")
+        else:
+            self.__sendMessage("Camera OFFLINE")
+        
         self.updateTimer = threading.Timer(2.0, self.update).start()
+
+
+    def isOnline(self):
+        return self.Camera.isConnected()
 
 
     def update(self):
         
-        try:
-            if self.counter % 1 == 0:
-                self.movementCheck()
-            if self.counter % 2 == 0:
-                self.sendVideo()
-            if self.counter % 10 == 0:
-                self.unstuckTmpVideo()
-        
-        except:
-            self.__sendMessage("Camera OFFLINE")
-        
-        self.counter = (self.counter + 1) % 100
+        if (self.Camera.isConnected()):
+            try:
+                if self.counter % 1 == 0:
+                    self.movementCheck()
+                if self.counter % 3 == 0:
+                    self.sendVideo()
+                if self.counter % 7 == 0:
+                    self.unstuckTmpVideo()
+                self.__printLog("Camera ONLINE")
+            except:
+                self.__sendMessage("Camera OFFLINE")
+        else:
+            self.__printLog("Camera OFFLINE")
+            self.Camera.connectFTP()
 
+        self.counter = (self.counter + 1) % 100
         self.updateTimer = threading.Timer(2.0, self.update).start()
 
 
     def movementCheck(self):
-        self.__printLog("Update")
         if self.Camera.isRecording():
             self.__printLog(f"Camera is recording size {int(self.Camera.getTmpVideoSize() / 10000) / 100} MB")
             if self.recording == False:
@@ -47,7 +57,7 @@ class IPCam:
                 self.recording = True
         else:
             if self.recording:
-                self.__printLog("recording ended")
+                self.__printLog("Recording ended")
             self.recording = False
     
     
@@ -71,13 +81,11 @@ class IPCam:
             self.__printLog("Send photo")
             self.Notifier.sendPhoto(res, self.name)
         else:
-            self.__printLog("Send photo failed camera offine")
             self.__sendMessage("Camera offline")
         return res
 
 
     def __movementTriggered(self):
-        self.__printLog("Movement triggered")
         self.__sendMessage("Movimento")
         self.sendImage("Camera offine")
 
@@ -89,4 +97,6 @@ class IPCam:
 
 
     def __sendMessage(self, msg):
+        if self.log:
+            self.__printLog(f"Telegram-> {msg}")
         self.Notifier.sendMessage(f"{self.name}", f"{msg}")

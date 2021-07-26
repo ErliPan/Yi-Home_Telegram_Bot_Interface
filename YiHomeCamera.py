@@ -13,9 +13,23 @@ class YiCam:
     def __init__(self, config, ip):
         self.ip = ip
         self.config = config
-        self.ftp = FTP(ip)
-        self.ftp.login(user="root", passwd = "")
-    
+        self.connectFTP()
+
+
+    def connectFTP(self):
+        try:
+            self.ftp = FTP(self.ip)
+            self.ftp.login(user="root", passwd = "")
+            self.connected = True
+        except:
+            self.connected = False
+        
+        return self.connected
+
+
+    def isConnected(self):
+        return self.connected
+
 
     def getImage(self, highQuality = False, timeStamp = False):
         highQuality = "high" if highQuality else "low"
