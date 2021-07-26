@@ -40,6 +40,7 @@ class IPCam:
                 self.__printLog("Camera ONLINE")
             except:
                 self.__sendMessage("Camera OFFLINE")
+                self.Camera.disconnect()
         else:
             self.__printLog("Camera OFFLINE")
             self.Camera.connectFTP()
@@ -99,4 +100,8 @@ class IPCam:
     def __sendMessage(self, msg):
         if self.log:
             self.__printLog(f"Telegram-> {msg}")
-        self.Notifier.sendMessage(f"{self.name}", f"{msg}")
+        try:
+            self.Notifier.sendMessage(f"{self.name}", f"{msg}")
+        except:
+            self.__printLog(f"FAILED TO SEND: {msg}")
+            time.sleep(5)

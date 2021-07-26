@@ -31,6 +31,11 @@ class YiCam:
         return self.connected
 
 
+    def disconnect(self):
+        self.ftp = False
+        self.connected = False
+
+
     def getImage(self, highQuality = False, timeStamp = False):
         highQuality = "high" if highQuality else "low"
         timeStamp = "yes" if timeStamp else "no"
@@ -43,7 +48,10 @@ class YiCam:
 
 
     def isRecording(self):
-        self.ftp.cwd(self.videoPath) #ConnectionResetError: [Errno 104] Connection reset by peer
+        try:
+            self.ftp.cwd(self.videoPath)
+        except:
+            return False
         return self.tmpFile in self.ftp.nlst()
 
     
