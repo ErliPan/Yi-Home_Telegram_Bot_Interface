@@ -35,10 +35,18 @@ def __main__():
     for cam in cams:
         cam.start()
 
-    try:
-        notifyer.sendMessage("Camera Status", getOnlineStatus(cams))
-    except:
-        pass # If too many messages have been sent, an exception can occur #TODO
+    cameraStatus = ""
+
+    while True:
+        stat = getOnlineStatus(cams)
+        if stat != cameraStatus:
+            cameraStatus = stat
+            try:
+                notifyer.sendMessage("Camera Status", cameraStatus)
+            except:
+                pass # If too many messages have been sent, an exception can occur #TODO
+        
+        time.sleep(10)
 
 
 def getOnlineStatus(cams):
