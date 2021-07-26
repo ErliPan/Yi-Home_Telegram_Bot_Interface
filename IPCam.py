@@ -37,7 +37,7 @@ class IPCam:
                 if self.counter % 21 == 0:
                     self.__printLog("RUNNING")
             except:
-                self.__sendMessage("Camera disconnected")
+                self.__printLog("Camera disconnected")
                 self.Camera.disconnect()
         
         elif self.counter % 14 == 0:
