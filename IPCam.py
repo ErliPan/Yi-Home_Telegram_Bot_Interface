@@ -3,10 +3,9 @@ import time
 
 class IPCam:
 
-    log = True
-
     def __init__(self, Notifier, Camera, name):
 
+        self.log = True
         self.recording = False
         self.startTime = time.time()
         self.name = name
@@ -14,13 +13,8 @@ class IPCam:
         self.Camera = Camera
         self.recordingSize = -1
         self.counter = 0
-
-        if Camera.isConnected():
-            self.__sendMessage("Camera ONLINE")
-        else:
-            self.__sendMessage("Camera OFFLINE")
         
-        self.updateTimer = threading.Timer(2.0, self.update).start()
+        self.updateTimer = threading.Timer(1.5, self.update).start()
 
 
     def isOnline(self):
@@ -28,7 +22,6 @@ class IPCam:
 
 
     def update(self):
-        
         if (self.Camera.isConnected()):
             try:
                 if self.counter % 1 == 0:

@@ -23,7 +23,7 @@ class YiCam:
             self.connected = True
         except:
             self.connected = False
-        
+
         return self.connected
 
 
@@ -41,9 +41,7 @@ class YiCam:
         timeStamp = "yes" if timeStamp else "no"
 
         url = f"http://{self.ip}:8080/cgi-bin/snapshot.sh?res={highQuality}&watermark={timeStamp}"
-
         response = requests.get(url, timeout=self.config.SNAPSHOT_TIMEOUT)
-
         return io.BytesIO(response.content) if (response.headers.get("content-type") == "image/jpeg") else False
 
 
@@ -86,8 +84,3 @@ class YiCam:
                     self.ftp.rmd(dirPath)
                 except error_perm:
                     pass
-
-
-
-
-
