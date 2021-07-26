@@ -18,7 +18,7 @@ class YiCam:
 
     def connectFTP(self):
         try:
-            self.ftp = FTP(self.ip)
+            self.ftp = FTP(self.ip, timeout=15)
             self.ftp.login(user="root", passwd = "")
             self.connected = True
         except:

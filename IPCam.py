@@ -34,15 +34,18 @@ class IPCam:
                     self.sendVideo()
                 if self.counter % 7 == 0:
                     self.unstuckTmpVideo()
+                if self.counter % 21 == 0:
+                    self.__printLog("RUNNING")
             except:
-                self.__sendMessage("Camera Disconnecting")
+                self.__sendMessage("Camera disconnected")
                 self.Camera.disconnect()
-        else:
-            status = "SUCCESS" if self.Camera.connectFTP() else "FAILED"
-            self.__printLog(f"Reconnecting result : {status}")
+        
+        elif self.counter % 14 == 0:
+            status = "SUCCESS" if self.Camera.connectFTP() else "FAIL"
+            self.__sendMessage(f"Reconnecting result: {status}")
 
-        self.counter = (self.counter + 1) % 10
 
+        self.counter = (self.counter + 1) % 100
         #Call itself after 1 sec
         self.updateTimer = threading.Timer(1.0, self.update).start()
 
@@ -70,7 +73,6 @@ class IPCam:
 
 
     def sendVideo(self):
-        self.__printLog("Check videos")
         self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
 
 
