@@ -7,7 +7,7 @@ class IPCam:
 
         self.log = True
         self.recording = False
-        self.startTime = -1
+        self.startTime = time.time()
         self.name = name
         self.Notifyer = Notifyer
         self.Camera = Camera
@@ -17,8 +17,9 @@ class IPCam:
         self.__printLog("Created")
 
     def start(self):
-        self.update()
         self.startTime = time.time()
+        self.__printLog("Starting...")
+        self.update()
 
     def isOnline(self):
         return self.Camera.isConnected()
@@ -33,13 +34,12 @@ class IPCam:
                     self.sendVideo()
                 if self.counter % 7 == 0:
                     self.unstuckTmpVideo()
-                self.__printLog("Camera ONLINE")
             except:
-                self.__sendMessage("Camera OFFLINE")
+                self.__sendMessage("Camera Disconnecting")
                 self.Camera.disconnect()
         else:
-            self.__printLog("Camera OFFLINE")
-            self.Camera.connectFTP()
+            status = "SUCCESS" if self.Camera.connectFTP() else "FAILED"
+            self.__printLog(f"Reconnecting result : {status}")
 
         self.counter = (self.counter + 1) % 10
 
@@ -70,7 +70,7 @@ class IPCam:
 
 
     def sendVideo(self):
-        self.__printLog("Check old video")
+        self.__printLog("Check videos")
         self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
 
 
