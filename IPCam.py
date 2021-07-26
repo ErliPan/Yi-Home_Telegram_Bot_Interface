@@ -3,7 +3,7 @@ import time
 
 class IPCam:
 
-    debug = True
+    log = True
 
     def __init__(self, Notifier, Camera, name):
 
@@ -21,12 +21,16 @@ class IPCam:
 
     def update(self):
         
-        if self.counter % 1 == 0:
-            self.movementCheck()
-        if self.counter % 2 == 0:
-            self.sendVideo()
-        if self.counter % 10 == 0:
-            self.unstuckTmpVideo()
+        try:
+            if self.counter % 1 == 0:
+                self.movementCheck()
+            if self.counter % 2 == 0:
+                self.sendVideo()
+            if self.counter % 10 == 0:
+                self.unstuckTmpVideo()
+        
+        except:
+            self.__sendMessage("Camera OFFLINE")
         
         self.counter = (self.counter + 1) % 100
 
@@ -79,7 +83,7 @@ class IPCam:
 
 
     def __printLog(self, msg):
-        if self.debug:
+        if self.log:
             timePassed = int(time.time() - self.startTime)
             print(f"{self.name} {timePassed} {msg}")
 

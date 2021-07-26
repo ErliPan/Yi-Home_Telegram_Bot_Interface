@@ -26,12 +26,14 @@ dispatcher.add_handler(CommandHandler("immagine", getImmagine))
 botUpdater.start_polling()
 """
 
+cams = []
 
-cam = IPCam(telegram, YiCam(config, "10.10.10.52"), "yi-b312")
-cam = IPCam(telegram, YiCam(config, "10.10.10.54"), "yi-23ba")
-cam = IPCam(telegram, YiCam(config, "10.10.10.56"), "yi-d685")
-cam = IPCam(telegram, YiCam(config, "10.10.10.57"), "yi-d2ea")
-cam = IPCam(telegram, YiCam(config, "10.10.10.60"), "yi-e08f")
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.52"), "yi-b312"))
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.54"), "yi-23ba"))
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.56"), "yi-d685"))
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.57"), "yi-d2ea"))
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.60"), "yi-e08f"))
+cams.append(IPCam(telegram, YiCam(config, "10.10.10.61"), "yi-499d"))
 
 
 while True:
