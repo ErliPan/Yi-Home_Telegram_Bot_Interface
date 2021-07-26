@@ -13,13 +13,10 @@ class IPCam:
         self.Notifier = Notifier
         self.Camera = Camera
         self.recordingSize = -1
+        self.counter = 0
 
-        self.__printLog("Create updateTimer")
-        self.updateTimer = threading.Timer(3.0, self.update).start()
-        self.__printLog("Create sendVideoTimer")
-        self.sendVideoTimer  = threading.Timer(5.0, self.sendVideo).start()
-        self.__printLog("Create unstuckTimer")
-        self.unstuckTimer  = threading.Timer(10.0, self.unstuckTmpVideo).start()
+        self.__printLog("Create Timer")
+        self.updateTimer = threading.Timer(2.0, self.update).start()
 
 
     def sendImage(self, msg):
@@ -33,18 +30,21 @@ class IPCam:
         return res
 
 
-    def unstuckTmpVideo(self):
-        self.unstuckTimer  = threading.Timer(10.0, self.unstuckTmpVideo).start()
-        if self.Camera.isRecording():
-            size = self.Camera.getTmpVideoSize()
-            if self.recordingSize != -1:
-                if self.recordingSize == size:
-                    self.__printLog(f" #### UNSTUCK STUCK VIDEO size = {int(size) / 1000} kB")
-            self.size = size
-
-
     def update(self):
-        self.updateTimer = threading.Timer(3.0, self.update).start()
+        
+        if self.counter % 1 == 0:
+            self.movementCheck()
+        if self.counter % 2 == 0:
+            self.sendVideo()
+        if self.counter % 10 == 0:
+            self.unstuckTmpVideo()
+        
+        self.counter = (self.counter + 1) % 100
+
+        self.updateTimer = threading.Timer(2.0, self.update).start()
+
+
+    def movementCheck(self):
         self.__printLog("Update")
         if self.Camera.isRecording():
             self.__printLog(f"Camera is self.recording size {int(self.Camera.getTmpVideoSize()) / 1000} kB")
@@ -58,8 +58,16 @@ class IPCam:
             self.recording = False
     
     
+    def unstuckTmpVideo(self):
+        if self.Camera.isRecording():
+            size = self.Camera.getTmpVideoSize()
+            if self.recordingSize != -1:
+                if self.recordingSize == size:
+                    self.__printLog(f" #### UNSTUCK STUCK VIDEO size = {int(size) / 1000} kB")
+            self.size = size
+
+
     def sendVideo(self):
-        self.sendVideoTimer = threading.Timer(5.0, self.sendVideo).start()
         self.__printLog("Check old video")
         self.Camera.callbackVideoList(self.Notifier.sendVideo)
 

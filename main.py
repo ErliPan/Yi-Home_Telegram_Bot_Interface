@@ -28,10 +28,10 @@ botUpdater.start_polling()
 
 
 cam = IPCam(telegram, YiCam(config, "10.10.10.52"), "yi-b312")
-#cam = IPCam(telegram, YiCam(config, "10.10.10.54"), "yi-23ba")
-#cam = IPCam(telegram, YiCam(config, "10.10.10.56"), "yi-d685")
-#cam = IPCam(telegram, YiCam(config, "10.10.10.57"), "yi-d2ea")
-#cam = IPCam(telegram, YiCam(config, "10.10.10.60"), "yi-e08f")
+cam = IPCam(telegram, YiCam(config, "10.10.10.54"), "yi-23ba")
+cam = IPCam(telegram, YiCam(config, "10.10.10.56"), "yi-d685")
+cam = IPCam(telegram, YiCam(config, "10.10.10.57"), "yi-d2ea")
+cam = IPCam(telegram, YiCam(config, "10.10.10.60"), "yi-e08f")
 
 
 while True:
