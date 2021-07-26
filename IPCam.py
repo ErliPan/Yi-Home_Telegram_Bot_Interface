@@ -46,7 +46,7 @@ class IPCam:
             self.Camera.connectFTP()
 
         self.counter = (self.counter + 1) % 100
-        self.updateTimer = threading.Timer(2.0, self.update).start()
+        self.updateTimer = threading.Timer(1.0, self.update).start()
 
 
     def movementCheck(self):
@@ -105,3 +105,4 @@ class IPCam:
         except:
             self.__printLog(f"FAILED TO SEND: {msg}")
             time.sleep(5)
+        time.sleep(1)
