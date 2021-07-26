@@ -9,10 +9,9 @@ import time
 
 
 telegram = Telegram(config)
-yiCam = YiCam(config, "10.10.10.57")
 
 
-
+"""
 def getImmagine(update: Update, context: CallbackContext):
     r = cam.getImage()
 
@@ -25,12 +24,15 @@ botUpdater = Updater(config.TOKEN)
 dispatcher = botUpdater.dispatcher
 dispatcher.add_handler(CommandHandler("immagine", getImmagine))
 botUpdater.start_polling()
+"""
 
 
+cam = IPCam(telegram, YiCam(config, "10.10.10.52"), "yi-b312")
+#cam = IPCam(telegram, YiCam(config, "10.10.10.54"), "yi-23ba")
+#cam = IPCam(telegram, YiCam(config, "10.10.10.56"), "yi-d685")
+#cam = IPCam(telegram, YiCam(config, "10.10.10.57"), "yi-d2ea")
+#cam = IPCam(telegram, YiCam(config, "10.10.10.60"), "yi-e08f")
 
-cam = IPCam(telegram, yiCam, "Camera 1")
 
-print("start loop")
 while True:
-
     time.sleep(2)
