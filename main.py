@@ -1,14 +1,16 @@
 from TelegramNotifier import Telegram
 from telegram import *
 from telegram.ext import *
-from YiHomeCamera import IPCam
+from YiHomeCamera import YiCam
 import config
 import time
 
 
 
 bot = Telegram(config)
-cam = IPCam(config, "10.10.10.54")
+cam = YiCam(config, "10.10.10.54")
+
+
 
 
 def getImmagine(update: Update, context: CallbackContext):
@@ -50,7 +52,7 @@ while True:
             rec = True
         else:
             time.sleep(2)
-            print(f"{counter} wait")
+            print(f"{counter} wait tmpsize: {cam.getTmpVideoSize()}")
     else:
         if rec:
             cam.callbackVideoList(bot.sendVideo)

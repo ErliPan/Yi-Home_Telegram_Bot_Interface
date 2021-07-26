@@ -5,7 +5,7 @@ import os
 from ftplib import FTP, error_perm
 import time
 
-class IPCam:
+class YiCam:
 
     videoPath = "/tmp/sd/record"
     tmpFile = "tmp.mp4.tmp"
@@ -32,6 +32,13 @@ class IPCam:
         self.ftp.cwd(self.videoPath) #ConnectionResetError: [Errno 104] Connection reset by peer
         return self.tmpFile in self.ftp.nlst()
 
+    
+    def getTmpVideoSize(self):
+        if self.isRecording():
+            return self.ftp.size(f"{self.videoPath}/{self.tmpFile}")
+        else:
+            return -1
+
 
     def callbackVideoList(self, videoFunc):
         videoCount = 0
@@ -42,7 +49,7 @@ class IPCam:
                 self.ftp.cwd(dirPath)
                 for videoFile in self.ftp.nlst():
                     filePath = f"/{self.videoPath}/{folder}/{videoFile}"
-                    urlPath = f"ftp://root:@{self.ip}/{filePath}"
+                    urlPath = f"ftp://root:@{self.ip}{filePath}"
                     print(urlPath)
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
                     videoFunc(videoObj)
