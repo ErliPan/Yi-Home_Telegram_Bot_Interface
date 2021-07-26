@@ -13,9 +13,9 @@ class IPCam:
         self.Camera = Camera
 
         self.__printLog("Create updateTimer")
-        self.updateTimer = threading.Timer(3.0, self.update)
+        self.updateTimer = threading.Timer(3.0, self.update).start()
         self.__printLog("Create sendVideoTimer")
-        self.sendVideoTimer  = threading.Timer(5.0, self.update)
+        self.sendVideoTimer  = threading.Timer(5.0, self.update).start()
 
 
     
