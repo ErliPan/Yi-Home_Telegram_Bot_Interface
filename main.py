@@ -33,13 +33,16 @@ botUpdater.start_polling()
 """
 
 def __main__():
-    telegram = Telegram(config)
+    #polymorphism (?)
+    notifyer = Telegram(config)
+    camera = YiCam
+
     cams = []
 
     for cameraInfo in camerasInfo:
-        cams.append(IPCam(telegram, YiCam(config, cameraInfo[0]), cameraInfo[1]))
+        cams.append(IPCam(notifyer, camera(config, cameraInfo[0]), cameraInfo[1]))
 
-    telegram.sendMessage("Camera Status", getOnlineStatus(cams))
+    notifyer.sendMessage("Camera Status", getOnlineStatus(cams))
 
 
 def getOnlineStatus(cams):

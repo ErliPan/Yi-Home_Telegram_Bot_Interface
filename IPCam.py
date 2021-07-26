@@ -3,13 +3,13 @@ import time
 
 class IPCam:
 
-    def __init__(self, Notifier, Camera, name):
+    def __init__(self, Notifyer, Camera, name):
 
         self.log = True
         self.recording = False
         self.startTime = time.time()
         self.name = name
-        self.Notifier = Notifier
+        self.Notifyer = Notifyer
         self.Camera = Camera
         self.recordingSize = -1
         self.counter = 0
@@ -66,14 +66,14 @@ class IPCam:
 
     def sendVideo(self):
         self.__printLog("Check old video")
-        self.Camera.callbackVideoList(self.Notifier.sendVideo, self.name)
+        self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
 
 
     def sendImage(self, msg):
         res = self.Camera.getImage()
         if res:
             self.__printLog("Send photo")
-            self.Notifier.sendPhoto(res, self.name)
+            self.Notifyer.sendPhoto(res, self.name)
         else:
             self.__sendMessage("Camera offline")
         return res
@@ -94,7 +94,7 @@ class IPCam:
         if self.log:
             self.__printLog(f"Telegram-> {msg}")
         try:
-            self.Notifier.sendMessage(f"{self.name}", f"{msg}")
+            self.Notifyer.sendMessage(f"{self.name}", f"{msg}")
         except:
             self.__printLog(f"FAILED TO SEND: {msg}")
             time.sleep(5)
