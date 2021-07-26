@@ -7,15 +7,18 @@ class IPCam:
 
         self.log = True
         self.recording = False
-        self.startTime = time.time()
+        self.startTime = -1
         self.name = name
         self.Notifyer = Notifyer
         self.Camera = Camera
         self.recordingSize = -1
-        self.counter = 0
+        self.counter = 1
         
-        self.updateTimer = threading.Timer(1.5, self.update).start()
+        self.__printLog("Created")
 
+    def start(self):
+        self.update()
+        self.startTime = time.time()
 
     def isOnline(self):
         return self.Camera.isConnected()
@@ -38,7 +41,9 @@ class IPCam:
             self.__printLog("Camera OFFLINE")
             self.Camera.connectFTP()
 
-        self.counter = (self.counter + 1) % 100
+        self.counter = (self.counter + 1) % 10
+
+        #Call itself after 1 sec
         self.updateTimer = threading.Timer(1.0, self.update).start()
 
 

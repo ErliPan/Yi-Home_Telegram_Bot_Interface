@@ -16,7 +16,6 @@ camerasInfo = [
     ["10.10.10.61", "6-yi-499d"],
 ]
 
-
 """
 def getImmagine(update: Update, context: CallbackContext):
     r = cam.getImage()
@@ -41,8 +40,15 @@ def __main__():
 
     for cameraInfo in camerasInfo:
         cams.append(IPCam(notifyer, camera(config, cameraInfo[0]), cameraInfo[1]))
+    
+    #Make them start at the same time (more or less)
+    for cam in cams:
+        cam.start()
 
-    notifyer.sendMessage("Camera Status", getOnlineStatus(cams))
+    try:
+        notifyer.sendMessage("Camera Status", getOnlineStatus(cams))
+    except:
+        pass # If too many messages have been sent, an exception can occur #TODO
 
 
 def getOnlineStatus(cams):
@@ -50,7 +56,7 @@ def getOnlineStatus(cams):
     for cam in cams:
         status = "ONLINE" if cam.isOnline() else "OFFLINE"
         msg += f"Camera <code>{cam.name}</code> is <code>{status}</code>\n"
-    
+
     return msg
 
 
