@@ -1,4 +1,5 @@
 import threading
+import time
 
 class IPCam:
 
@@ -7,7 +8,7 @@ class IPCam:
     def __init__(self, Notifier, Camera, name):
 
         self.recording = False
-        self.counter = 0
+        self.startTime = time.time()
         self.name = name
         self.Notifier = Notifier
         self.Camera = Camera
@@ -18,7 +19,6 @@ class IPCam:
         self.sendVideoTimer  = threading.Timer(5.0, self.update).start()
 
 
-    
     def sendImage(self, msg):
 
         res = self.Camera.getImage()
@@ -38,25 +38,29 @@ class IPCam:
 
 
     def update(self):
+        self.updateTimer = threading.Timer(3.0, self.update).start()
         self.__printLog("Update")
         if self.Camera.isRecording():
-            self.__printLog("Camera is recording size {self.Camera.getTmpVideoSize()}")
-            if recording == False:
-                self.__printLog("Trigger video recording")
+            self.__printLog("Camera is self.recording size {self.Camera.getTmpVideoSize()}")
+            if self.recording == False:
+                self.__printLog("Trigger video self.recording")
                 __movementTriggered()
-                recording = True
+                self.recording = True
         else:
-            self.__printLog("Recording ended")
-            recording = False
+            if self.recording:
+                self.__printLog("self.recording ended")
+            self.recording = False
     
     
     def sendVideo(self):
+        self.sendVideoTimer  = threading.Timer(5.0, self.update).start()
         self.__printLog("Check old video")
         self.Camera.callbackVideoList(self.Notifier.sendVideo)
 
 
     def __printLog(self, msg):
         if self.debug:
-            print(f"{self.name} {self.counter} {msg}")
+            timePassed = int(time.time() - self.startTime)
+            print(f"{self.name} {timePassed} {msg}")
 
 
