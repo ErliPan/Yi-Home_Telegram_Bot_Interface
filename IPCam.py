@@ -19,17 +19,6 @@ class IPCam:
         self.updateTimer = threading.Timer(2.0, self.update).start()
 
 
-    def sendImage(self, msg):
-        res = self.Camera.getImage()
-        if res:
-            self.__printLog("Send photo")
-            self.Notifier.sendPhoto(res)
-        else:
-            self.__printLog("Send photo failed camera offine")
-            self.__sendMessage("Camera offline")
-        return res
-
-
     def update(self):
         
         if self.counter % 1 == 0:
@@ -69,7 +58,18 @@ class IPCam:
 
     def sendVideo(self):
         self.__printLog("Check old video")
-        self.Camera.callbackVideoList(self.Notifier.sendVideo)
+        self.Camera.callbackVideoList(self.Notifier.sendVideo, self.name)
+
+
+    def sendImage(self, msg):
+        res = self.Camera.getImage()
+        if res:
+            self.__printLog("Send photo")
+            self.Notifier.sendPhoto(res, self.name)
+        else:
+            self.__printLog("Send photo failed camera offine")
+            self.__sendMessage("Camera offline")
+        return res
 
 
     def __movementTriggered(self):

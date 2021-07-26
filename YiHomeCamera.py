@@ -45,7 +45,7 @@ class YiCam:
             self.ftp.delete(f"{self.videoPath}/{self.tmpFile}")
 
 
-    def callbackVideoList(self, videoFunc):
+    def callbackVideoList(self, videoFunc, name):
         videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
@@ -57,7 +57,7 @@ class YiCam:
                     urlPath = f"ftp://root:@{self.ip}{filePath}"
                     print(urlPath)
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
-                    videoFunc(videoObj)
+                    videoFunc(videoObj, name)
                     self.ftp.delete(filePath)
 
                 try:
