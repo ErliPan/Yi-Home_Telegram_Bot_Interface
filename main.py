@@ -1,14 +1,17 @@
 from TelegramNotifier import Telegram
+from YiHomeCamera import YiCam
+from IPCam import IPCam
 from telegram import *
 from telegram.ext import *
-from YiHomeCamera import YiCam
 import config
 import time
 
 
 
-bot = Telegram(config)
-cam = YiCam(config, "10.10.10.54")
+telegram = Telegram(config)
+yiCam = YiCam(config, "10.10.10.57")
+
+cam = IPCam(telegram, yiCam, "Camera 1")
 
 
 
@@ -25,6 +28,7 @@ botUpdater = Updater(config.TOKEN)
 dispatcher = botUpdater.dispatcher
 dispatcher.add_handler(CommandHandler("immagine", getImmagine))
 botUpdater.start_polling()
+
 
 print("start loop")
 rec = False

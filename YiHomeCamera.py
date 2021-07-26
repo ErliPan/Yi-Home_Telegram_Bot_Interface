@@ -40,6 +40,11 @@ class YiCam:
             return -1
 
 
+    def removeTmpVideo(self):
+        if self.isRecording():
+            self.ftp.delete(f"{self.videoPath}/{self.tmpFile}")
+
+
     def callbackVideoList(self, videoFunc):
         videoCount = 0
         self.ftp.cwd(self.videoPath)
@@ -54,7 +59,7 @@ class YiCam:
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
                     videoFunc(videoObj)
                     self.ftp.delete(filePath)
-            
+
                 try:
                     self.ftp.rmd(dirPath)
                 except error_perm:
