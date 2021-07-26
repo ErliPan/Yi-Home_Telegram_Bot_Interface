@@ -76,19 +76,22 @@ class IPCam:
         self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
 
 
-    def sendImage(self, msg):
+    def sendImage(self, caption=""):
         res = self.Camera.getImage()
         if res:
             self.__printLog("Send photo")
-            self.Notifyer.sendPhoto(res, self.name)
+            self.Notifyer.sendPhoto(res, f"{self.name} {caption}")
         else:
             self.__sendMessage("Camera offline")
         return res
 
 
     def __movementTriggered(self):
+        """
         self.__sendMessage("Movimento")
-        self.sendImage("Camera offine")
+        self.sendImage()
+        """
+        self.sendImage("Movimento")
 
 
     def __printLog(self, msg):
