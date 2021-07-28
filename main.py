@@ -1,4 +1,5 @@
-from TelegramNotifier import Telegram
+from TelegramNotifyer import Telegram
+from DummyNotifyer import Dummy
 from YiHomeCamera import YiCam
 from IPCam import IPCam
 from telegram import *
@@ -6,7 +7,7 @@ from telegram.ext import *
 import config as CONFIG
 import time
 
-"""
+
 def getImmagine(update: Update, context: CallbackContext):
     r = cam.getImage()
 
@@ -17,9 +18,12 @@ def getImmagine(update: Update, context: CallbackContext):
 
 botUpdater = Updater(CONFIG.TOKEN)
 dispatcher = botUpdater.dispatcher
+
+#MessageHandler(Filters.regex('pattern'), callback)
+
 dispatcher.add_handler(CommandHandler("immagine", getImmagine))
 botUpdater.start_polling()
-"""
+
 
 def __main__():
     #polymorphism (?)
