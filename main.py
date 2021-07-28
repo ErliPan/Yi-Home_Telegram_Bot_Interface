@@ -45,10 +45,16 @@ def __main__():
         stat = getOnlineStatus(cams)
         if stat != cameraStatus:
             cameraStatus = stat
+
+            keyboard = []
+            for cam in cams:
+                if cam.isOnline():
+                    keyboard.append([f"Foto cam.getName()"])
+
             try:
-                notifyer.sendMessage("Camera Status", cameraStatus)
-            except:
-                pass # If too many messages have been sent, an exception can occur #TODO
+                notifyer.sendMessage("Camera Status", cameraStatus, reply_markup = keyboard)
+            except Exception as e:
+                print(e) # If too many messages have been sent, an exception can occur #TODO
         
         time.sleep(10)
 

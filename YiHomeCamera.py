@@ -21,7 +21,8 @@ class YiCam:
             self.ftp = FTP(self.ip, timeout=15)
             self.ftp.login(user="root", passwd = "")
             self.connected = True
-        except:
+        except Exception as e:
+            print(e)
             self.connected = False
 
         return self.connected
@@ -48,7 +49,8 @@ class YiCam:
     def isRecording(self):
         try:
             self.ftp.cwd(self.videoPath)
-        except:
+        except Exception as e:
+            print(e)
             return False
         return self.tmpFile in self.ftp.nlst()
 
@@ -82,5 +84,5 @@ class YiCam:
 
                 try:
                     self.ftp.rmd(dirPath)
-                except error_perm:
-                    pass
+                except error_perm as e:
+                    print(e)

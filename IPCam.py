@@ -16,13 +16,19 @@ class IPCam:
         
         self.__printLog("Created")
 
+
     def start(self):
         self.startTime = time.time()
         self.__printLog("Starting...")
         self.update()
 
+
     def isOnline(self):
         return self.Camera.isConnected()
+
+
+    def getName(self):
+        return self.name
 
 
     def update(self):
@@ -36,8 +42,8 @@ class IPCam:
                     self.unstuckTmpVideo()
                 if self.counter % 21 == 0:
                     self.__printLog("RUNNING")
-            except:
-                self.__printLog("Camera disconnected")
+            except Exception as e:
+                self.__printLog(f"Camera disconnected exception: {e}")
                 self.Camera.disconnect()
         
         elif self.counter % 14 == 0:
@@ -73,7 +79,10 @@ class IPCam:
 
 
     def sendVideo(self):
-        self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
+        if self.isOnline():
+            self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
+        else:
+            self.__printLog("Calling sendVideo when offline")
 
 
     def sendImage(self, caption=""):
@@ -105,7 +114,7 @@ class IPCam:
             self.__printLog(f"Telegram-> {msg}")
         try:
             self.Notifyer.sendMessage(f"{self.name}", f"{msg}")
-        except:
-            self.__printLog(f"FAILED TO SEND: {msg}")
+        except Exception as e:
+            self.__printLog(f"FAILED TO SEND: {msg} exception: {e}")
             time.sleep(5)
         time.sleep(1)
