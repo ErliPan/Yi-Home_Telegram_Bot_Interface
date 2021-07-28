@@ -49,7 +49,7 @@ def __main__():
             keyboard = []
             for cam in cams:
                 if cam.isOnline():
-                    keyboard.append([f"Foto cam.getName()"])
+                    keyboard.append([f"Foto {cam.getName()}"])
 
             try:
                 notifyer.sendMessage("Camera Status", cameraStatus, reply_markup = keyboard)
