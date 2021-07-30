@@ -10,10 +10,11 @@ class YiCam:
     videoPath = "/tmp/sd/record"
     tmpFile = "tmp.mp4.tmp"
 
-    def __init__(self, config, ip):
+    def __init__(self, config, ip, switchOn = True):
         self.ip = ip
         self.config = config
         self.connectFTP()
+        self.switchCamera(switchOn)
 
 
     def connectFTP(self):
@@ -35,6 +36,23 @@ class YiCam:
     def disconnect(self):
         self.ftp = False
         self.connected = False
+
+
+    def switchCamera(self, switchOn):
+        status = "yes" if switchOn else "no"
+        url = f"http://{self.ip}:8080/cgi-bin/camera_settings.sh?save_video_on_motion=yes&sensitivity=low&ai_human_detection=no&sound_detection=no&sound_sensitivity=80&led={status}&ir=yes&rotate=no&switch_on={status}"
+        print(url)
+
+        try:
+            #Camera firmware bug, sometimes the settings are applied only on the second request
+            x = requests.get(url, timeout=self.config.SETTINGS_TIMEOUT)
+            if switchOn:
+                y = requests.get(url, timeout=self.config.SETTINGS_TIMEOUT)
+                return x.status_code == 200 and y.status_code == 200
+            else:
+                return x.status_code == 200
+        except:
+            return False
 
 
     def getImage(self, highQuality = False, timeStamp = False):
@@ -67,7 +85,7 @@ class YiCam:
             self.ftp.delete(f"{self.videoPath}/{self.tmpFile}")
 
 
-    def callbackVideoList(self, videoFunc, name):
+    def callbackVideoList(self, name = None, videoFunc = None):
         videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
@@ -79,10 +97,10 @@ class YiCam:
                     urlPath = f"ftp://root:@{self.ip}{filePath}"
                     print(urlPath)
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
-                    videoFunc(videoObj, name)
+                    if videoFunc:
+                        videoFunc(videoObj, name)
                     self.ftp.delete(filePath)
-
                 try:
                     self.ftp.rmd(dirPath)
                 except error_perm as e:
-                    print(e)
+                    print(e) #Video have been saved in the meanwhile

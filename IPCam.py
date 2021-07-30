@@ -3,7 +3,7 @@ import time
 
 class IPCam:
 
-    def __init__(self, Notifyer, Camera, name):
+    def __init__(self, Notifyer, Camera, name, enabled = True):
 
         self.log = True
         self.recording = False
@@ -13,6 +13,7 @@ class IPCam:
         self.Camera = Camera
         self.recordingSize = -1
         self.counter = 1
+        self.enabled = enabled
         
         self.__printLog("Created")
 
@@ -21,6 +22,18 @@ class IPCam:
         self.startTime = time.time()
         self.__printLog("Starting...")
         self.update()
+
+
+    def enableCam(self, enabled):
+        self.__printLog(f"Set camera to {enabled}")
+        if self.Camera.switchCamera(enabled):
+            self.enabled = enabled
+            return True
+        return False
+
+
+    def isEnabled(self):
+        return self.enabled
 
 
     def isOnline(self):
@@ -80,19 +93,25 @@ class IPCam:
 
     def sendVideo(self):
         if self.isOnline():
-            self.Camera.callbackVideoList(self.Notifyer.sendVideo, self.name)
+            if self.isEnabled():
+                self.Camera.callbackVideoList(self.name, self.Notifyer.sendVideo)
+            else:
+                self.Camera.callbackVideoList()
         else:
             self.__printLog("Calling sendVideo when offline")
 
 
     def sendImage(self, caption=""):
-        res = self.Camera.getImage()
-        if res:
-            self.__printLog("Send photo")
-            self.Notifyer.sendPhoto(res, f"{self.name} {caption}")
+        if self.isEnabled():
+            res = self.Camera.getImage()
+            if res:
+                self.__printLog("Send photo")
+                self.Notifyer.sendPhoto(res, f"{self.name} {caption}")
+            else:
+                self.__sendMessage("Camera offline")
+            return res
         else:
-            self.__sendMessage("Camera offline")
-        return res
+            self.__sendMessage("Camera is disabled")
 
 
     def __movementTriggered(self):

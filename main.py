@@ -37,6 +37,7 @@ def main():
             for cam in cams:
                 if cam.isOnline():
                     keyboard.append([f"{cam.getName()} Foto"])
+                    keyboard.append([f"{cam.getName()} On", f"{cam.getName()} Off"])
             keyboard = telegram.ReplyKeyboardMarkup(keyboard)
 
             try:
