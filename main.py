@@ -1,31 +1,17 @@
 from TelegramNotifyer import Telegram
 from DummyNotifyer import Dummy
+
 from YiHomeCamera import YiCam
 from IPCam import IPCam
-from telegram import *
-from telegram.ext import *
+
+from TelegramChat import TelegramChat
+
 import config as CONFIG
+
+import telegram
 import time
 
-
-def getImmagine(update: Update, context: CallbackContext):
-    r = cam.getImage()
-
-    if r == True:
-        bot.sendMessage("Camera offline")
-    else:
-        bot.sendPhoto(r)
-
-botUpdater = Updater(CONFIG.TOKEN)
-dispatcher = botUpdater.dispatcher
-
-#MessageHandler(Filters.regex('pattern'), callback)
-
-dispatcher.add_handler(CommandHandler("immagine", getImmagine))
-botUpdater.start_polling()
-
-
-def __main__():
+def main():
     #polymorphism (?)
     notifyer = Telegram(CONFIG)
     camera = YiCam
@@ -38,6 +24,7 @@ def __main__():
     #Make them start at the same time (more or less)
     for cam in cams:
         cam.start()
+        TelegramChat(CONFIG.TOKEN, cam)
 
     cameraStatus = ""
 
@@ -55,7 +42,7 @@ def __main__():
             try:
                 notifyer.sendMessage("Camera Status", cameraStatus, reply_markup = keyboard)
             except Exception as e:
-                print(e) # If too many messages have been sent, an exception can occur #TODO
+                print(e) # If too many messages have been sent, an exception can occur #FIXME
         
         time.sleep(10)
 
@@ -69,4 +56,6 @@ def getOnlineStatus(cams):
     return msg
 
 
-__main__()
+
+if __name__ == "__main__":
+    main()
