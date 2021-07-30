@@ -10,9 +10,10 @@ class YiCam:
     videoPath = "/tmp/sd/record"
     tmpFile = "tmp.mp4.tmp"
 
-    def __init__(self, config, ip, switchOn = True):
+    def __init__(self, config, ip, switchOn = True, sensitivity = "low"):
         self.ip = ip
         self.config = config
+        self.sensitivity = sensitivity
         self.connectFTP()
         self.switchCamera(switchOn)
 
@@ -40,7 +41,7 @@ class YiCam:
 
     def switchCamera(self, switchOn):
         status = "yes" if switchOn else "no"
-        url = f"http://{self.ip}:8080/cgi-bin/camera_settings.sh?save_video_on_motion=yes&sensitivity=low&ai_human_detection=no&sound_detection=no&sound_sensitivity=80&led={status}&ir=yes&rotate=no&switch_on={status}"
+        url = f"http://{self.ip}:8080/cgi-bin/camera_settings.sh?save_video_on_motion=yes&sensitivity={self.sensitivity}&ai_human_detection=no&sound_detection=no&sound_sensitivity=80&led={status}&ir=yes&rotate=no&switch_on={status}"
         print(url)
 
         try:
