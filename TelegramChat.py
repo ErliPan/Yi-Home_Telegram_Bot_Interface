@@ -3,16 +3,12 @@ from telegram.ext import *
 
 class TelegramChat:
 
-    def __init__(self, token, camera):
+    def __init__(self, camera, dispatcher):
         self.camera = camera
-
-        botUpdater = Updater(token)
-        dispatcher = botUpdater.dispatcher
 
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{camera.name} On"), self.enableCam))
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{camera.name} Off"), self.disableCam))
         dispatcher.add_handler(MessageHandler(Filters.regex(camera.name), self.getImmagine))
-        botUpdater.start_polling()
 
 
     def enableCam(self, update: Update, context: CallbackContext):

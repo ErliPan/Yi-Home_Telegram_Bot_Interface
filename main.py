@@ -11,6 +11,9 @@ import config as CONFIG
 import telegram
 import time
 
+from telegram import *
+from telegram.ext import *
+
 def main():
     #polymorphism (?)
     notifyer = Telegram(CONFIG)
@@ -20,11 +23,19 @@ def main():
 
     for CAMERA in CONFIG.CAMERAS:
         cams.append(IPCam(notifyer, camera(CONFIG, CAMERA[0]), CAMERA[1]))
-    
+
+
+    botUpdater = Updater(CONFIG.TOKEN)
+    dispatcher = botUpdater.dispatcher
+
+
     #Make them start at the same time (more or less)
     for cam in cams:
         cam.start()
-        TelegramChat(CONFIG.TOKEN, cam)
+        TelegramChat(cam, dispatcher)
+    
+
+    botUpdater.start_polling()
 
     cameraStatus = ""
 

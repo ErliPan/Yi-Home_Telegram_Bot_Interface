@@ -88,7 +88,9 @@ class IPCam:
             if self.recordingSize != -1:
                 if self.recordingSize == size:
                     self.__printLog(f" #### UNSTUCK STUCK VIDEO size = {int(size / 10000) / 100} MB")
-            self.size = size
+                    self.Camera.removeTmpVideo()
+            self.recordingSize = size
+            self.__printLog(f"Check size is {self.recordingSize}")
 
 
     def sendVideo(self):
