@@ -1,3 +1,6 @@
 *.pyc
 config.py
 __pycache__/*.pyc
+*.wav
+__pycache__
+tts.py
