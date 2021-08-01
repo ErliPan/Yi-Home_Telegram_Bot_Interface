@@ -15,6 +15,9 @@ class Telegram:
 
 
     def sendPhoto(self, media, caption="", reply_markup = None):
+        if reply_markup != None:
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
@@ -32,6 +35,9 @@ class Telegram:
 
 
     def sendVideo(self, media, caption="", reply_markup = None):
+        if reply_markup != None:
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
@@ -50,6 +56,9 @@ class Telegram:
 
 
     def sendMessage(self, title, message="", reply_markup = None):
+        if reply_markup != None:
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+
         text = f"<strong>{title}</strong>\n{message}"
 
         random.shuffle(self.bots)

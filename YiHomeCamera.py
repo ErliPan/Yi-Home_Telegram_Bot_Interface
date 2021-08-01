@@ -94,7 +94,7 @@ class YiCam:
             self.ftp.delete(f"{self.videoPath}/{self.tmpFile}")
 
 
-    def callbackVideoList(self, name = None, videoFunc = None):
+    def callbackVideoList(self, name = None, videoFunc = None, notification = True):
         videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
@@ -107,9 +107,9 @@ class YiCam:
                     print(urlPath)
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
                     if videoFunc:
-                        videoFunc(videoObj, name)
+                        videoFunc(videoObj, name, notification=notification)
                     self.ftp.delete(filePath)
                 try:
                     self.ftp.rmd(dirPath)
                 except error_perm as e:
-                    print(e) #Video have been saved in the meanwhile
+                    print(e) #New video have been saved in the meanwhile

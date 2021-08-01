@@ -5,7 +5,7 @@ from datetime import datetime
 
 class SaveVideo:
 
-    def __init__(self, Notifyer, folderPath, sendNotification):
+    def __init__(self, Notifyer, folderPath, sendNotification = True):
         self.Notifyer = Notifyer
         self.folderPath = folderPath
 
@@ -28,6 +28,5 @@ class SaveVideo:
             self.Notifyer.sendVideo(media, caption, reply_markup)
 
 
-    def sendMessage(self, title, message="", reply_markup = None, notification = True):
-        if notification:
-            self.Notifyer.sendMessage(title, message, reply_markup)
+    def sendMessage(self, title, message="", reply_markup = None):
+        self.Notifyer.sendMessage(title, message, reply_markup)

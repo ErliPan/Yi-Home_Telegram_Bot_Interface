@@ -4,3 +4,4 @@ __pycache__/*.pyc
 *.wav
 __pycache__
 tts.py
+recording/*

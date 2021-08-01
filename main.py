@@ -15,58 +15,67 @@ import time
 from telegram import *
 from telegram.ext import *
 
-def main():
-    #polymorphism (?)
-    notifyer = SaveVideo(Telegram(CONFIG), CONFIG.MEDIA_SAVE_PATH)
-    camera = YiCam
 
-    cams = []
+class main:
 
-    for CAMERA in CONFIG.CAMERAS:
-        cams.append(IPCam(notifyer, camera(CONFIG, CAMERA[0]), CAMERA[1]))
+    def __init__(self):
+        #polymorphism (?)
+        self.notifyer = SaveVideo(Telegram(CONFIG), CONFIG.MEDIA_SAVE_PATH)
+        self.camera = YiCam
 
+        self.cams = []
 
-    botUpdater = Updater(CONFIG.TOKEN)
-    dispatcher = botUpdater.dispatcher
-
-
-    #Make them start at the same time (more or less)
-    for cam in cams:
-        cam.start()
-        TelegramChat(cam, dispatcher)
+        for CAMERA in CONFIG.CAMERAS:
+            self.cams.append(IPCam(self.notifyer, self.camera(CONFIG, CAMERA[0]), CAMERA[1]))
 
 
-    botUpdater.start_polling()
+        botUpdater = Updater(CONFIG.TOKEN)
+        dispatcher = botUpdater.dispatcher
 
-    cameraStatus = ""
 
-    while True:
-        stat = getOnlineStatus(cams)
-        if stat != cameraStatus:
-            cameraStatus = stat
+        #Make them start at the same time (more or less)
+        for cam in self.cams:
+            cam.start()
+            TelegramChat(cam, dispatcher, self.updateStatus)
 
-            keyboard = []
-            for cam in cams:
-                if cam.isOnline():
-                    keyboard.append([f"{cam.getName()} Foto"])
-                    keyboard.append([f"{cam.getName()} On", f"{cam.getName()} Off"])
-            keyboard = telegram.ReplyKeyboardMarkup(keyboard)
 
+        botUpdater.start_polling()
+
+        self.cameraStatus = ""
+
+        while True:
+            self.updateStatus()
+            time.sleep(10)
+
+
+    def updateStatus(self, force = False):
+        stat = self.getOnlineStatus()
+        if stat != self.cameraStatus or force:
+            self.cameraStatus = stat
             try:
-                notifyer.sendMessage("Camera Status", cameraStatus, reply_markup = keyboard)
+                self.notifyer.sendMessage("Camera Status", self.cameraStatus, reply_markup = self.generateKeyboard())
             except Exception as e:
-                print(e) # If too many messages have been sent, an exception can occur #FIXME
-        
-        time.sleep(10)
+                print(e) #If too many messages have been sent, an exception can occur #FIXME
 
 
-def getOnlineStatus(cams):
-    msg = ""
-    for cam in cams:
-        status = "ONLINE" if cam.isOnline() else "OFFLINE"
-        msg += f"Camera <code>{cam.name}</code> is <code>{status}</code>\n"
+    def generateKeyboard(self):
+        keyboard = []
+        for cam in self.cams:
+            if cam.isOnline():
+                status = "On" if not cam.sendNotification() else "Off"
+                keyboard.append([f"{cam.getName()} Foto", f"{cam.getName()} {status}"])
 
-    return msg
+        return keyboard
+
+
+    def getOnlineStatus(self):
+        msg = ""
+        for cam in self.cams:
+            status = "ONLINE" if cam.isOnline() else "OFFLINE"
+            notification = "YES" if cam.sendNotification() else "NO"
+            msg += f"Camera <code>{cam.name}</code> is <code>{status}</code> notification <code>{notification}</code>\n"
+
+        return msg
 
 
 

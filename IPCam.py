@@ -3,7 +3,7 @@ import time
 
 class IPCam:
 
-    def __init__(self, Notifyer, Camera, name, enabled = True):
+    def __init__(self, Notifyer, Camera, name, enabled = True, notification = True):
 
         self.log = True
         self.recording = False
@@ -14,6 +14,7 @@ class IPCam:
         self.recordingSize = -1
         self.counter = 1
         self.enabled = enabled
+        self.notification = notification
         
         self.__printLog("Created")
 
@@ -30,6 +31,14 @@ class IPCam:
             self.enabled = enabled
             return True
         return False
+
+
+    def sendNotification(self):
+        return self.notification
+    
+
+    def setNotification(self, sendNotificaton):
+        self.notification = sendNotificaton
 
 
     def isEnabled(self):
@@ -96,19 +105,23 @@ class IPCam:
     def sendVideo(self):
         if self.isOnline():
             if self.isEnabled():
-                self.Camera.callbackVideoList(self.name, self.Notifyer.sendVideo)
+                self.Camera.callbackVideoList(self.name, self.Notifyer.sendVideo, notification = self.notification)
             else:
                 self.Camera.callbackVideoList()
         else:
             self.__printLog("Calling sendVideo when offline")
 
 
-    def sendImage(self, caption=""):
+    def sendImage(self, caption="", force = False):
         if self.isEnabled():
             res = self.Camera.getImage()
             if res:
+                if force:
+                    notification = True
+                else:
+                    notification = self.notification
                 self.__printLog("Send photo")
-                self.Notifyer.sendPhoto(res, f"{self.name} {caption}")
+                self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
             else:
                 self.__sendMessage("Camera offline")
             return res
@@ -134,7 +147,7 @@ class IPCam:
         if self.log:
             self.__printLog(f"Telegram-> {msg}")
         try:
-            self.Notifyer.sendMessage(f"{self.name}", f"{msg}")
+            self.Notifyer.sendMessage(f"{self.name}", f"{msg}", notification = self.notification)
         except Exception as e:
             self.__printLog(f"FAILED TO SEND: {msg} exception: {e}")
             time.sleep(5)
