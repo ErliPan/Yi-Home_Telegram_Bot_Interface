@@ -127,7 +127,7 @@ class main:
         msg = ""
         for cam in self.cams:
             status = STATUS_ONLINE if cam.isOnline() else STATUS_OFFLINE
-            notification = INTENT_YES if cam.sendNotification() else INTENT_NO
+            notification = NOTIFY_ON if cam.sendNotification() else NOTIFY_OFF
             msg += ONLINE_STATUS_MSG(cam.name, status, notification)
 
         return msg

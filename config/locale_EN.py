@@ -3,21 +3,21 @@ CAMERA_DISABLED = "Camera disabled"
 MOTION_DETECTED = "Movement detected"
 STATUS_ON = "Turned on"
 STATUS_OFF = "Turned off"
-NOTIFY_ON = "Activate notification"
-NOTIFY_OFF = "Disable notification"
+NOTIFY_ON = "🔔"
+NOTIFY_OFF = "🔕"
 TURNING_ON = "Turning on"
 TURNING_OFF = "Turning off"
 IMAGE = "Picture"
-CAMERA_STATUS = "Cameras status"
-STATUS_ONLINE = "Online"
-STATUS_OFFLINE = "Offline"
+CAMERA_STATUS = "Cameras status 📹"
+STATUS_ONLINE = "Online✅"
+STATUS_OFFLINE = "Offline⛔️"
 INTENT_YES = "Yes"
 INTENT_NO = "No"
 ONLINE_LIST = "Camera state"
 
 
 def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
-    return f"<code>{CAMNAME}</code> is <code>{STATUS}</code>, notification <code>{ENABLED}</code>\n"
+    return f"<code>{CAMNAME}</code> is <code>{STATUS}</code>, notification {ENABLED}\n"
 
 
 #Play sound function
