@@ -33,7 +33,7 @@ def FILE_NOT_FOUND(filename):
 #Say tts function
 SPEAK_LANG = "en-US"
 EMPTY_ARGS = "Error incorrect args"
-SAY_COMMAND = "/say"
+SAY_COMMAND = "say"
 
 def TTS_SAYING(TEXT):
     return f"Saying {TEXT}"

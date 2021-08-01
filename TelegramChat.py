@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext, MessageHandler, Filters
 from config import *
+import os.path
 
 
 class TelegramChat:
@@ -9,13 +10,15 @@ class TelegramChat:
         self.camera = camera
         self.updateStatus = callbackUpdate
         
-        self.sayCommand = f"{SAY_COMMAND} {self.camera.name} "
+        self.sayCommand = f"/{SAY_COMMAND} {self.camera.name} "
+        self.playSoundCommand = f"/{PLAY_COMMAND} {self.camera.name} "
 
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_ON} {self.camera.name}"), self.enableNotification))
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_OFF} {self.camera.name}"), self.disableNotification))
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} {IMAGE}"), self.getImmagine))
 
         dispatcher.add_handler(MessageHandler(Filters.regex(self.sayCommand), self.textToSpeech))
+        dispatcher.add_handler(MessageHandler(Filters.regex(self.playSoundCommand), self.playSound))
 
 
     def enableCam(self, update: Update, context: CallbackContext):
@@ -46,6 +49,16 @@ class TelegramChat:
         else:
             update.message.reply_text(TTS_SAYING(text))
             self.camera.textToSpeech(text)
+    
+
+    def playSound(self, update: Update, context: CallbackContext):
+        print("self.playSoundCommand")
+        filename = SOUND_SAVE_PATH + update.message.text.replace(self.playSoundCommand, "")
+        if os.path.isfile(filename):
+            update.message.reply_text(PLAYING_FILE(filename))
+            self.camera.sendSound(filename)
+        else:
+            update.message.reply_text(FILE_NOT_FOUND(filename))
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):

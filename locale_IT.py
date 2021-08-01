@@ -33,7 +33,7 @@ def FILE_NOT_FOUND(filename):
 #Say tts function
 SPEAK_LANG = "it-IT"
 EMPTY_ARGS = "Errore manca parametri"
-SAY_COMMAND = "/dici"
+SAY_COMMAND = "dici"
 
 def TTS_SAYING(TEXT):
     return f"Dico {TEXT}"

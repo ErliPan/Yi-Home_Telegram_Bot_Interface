@@ -33,15 +33,17 @@ class main:
 
         botUpdater = Updater(TOKEN)
         dispatcher = botUpdater.dispatcher
-        dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
-        dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
-        dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
-
 
         #Make them start at the same time (more or less)
         for cam in self.cams:
             cam.start()
             TelegramChat(cam, dispatcher, self.updateStatus)
+
+
+        dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
+        dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
+        dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech))
+        dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
 
 
         botUpdater.start_polling()
@@ -50,6 +52,12 @@ class main:
             self.deleteOldMedia(MEDIA_SAVE_PATH, 7)
             self.updateStatus(force = False)
             time.sleep(10)
+
+    
+    def textToSpeech(self, update: Update, context: CallbackContext):
+        text = SOUND_SAVE_PATH + " ".join(context.args)
+        update.message.reply_text(TTS_SAYING(text))
+        self.__playTTS(text)
 
 
     def playSound(self, update: Update, context: CallbackContext):
@@ -69,6 +77,16 @@ class main:
         self.__playAudio(AUDIO_TEMP_FILE + ".wav", self.cams)
         os.unlink(AUDIO_TEMP_FILE)
         os.unlink(AUDIO_TEMP_FILE + ".wav")
+
+
+    def __playTTS(self, text, cams):
+        proc = []
+        for cam in cams:
+            proc.append(Process(target=cam.textToSpeech, args=(text, )))
+        for p in proc:
+            p.start()
+        for p in proc:
+            p.join()
 
 
     def __playAudio(self, filename, cams):
