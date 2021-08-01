@@ -40,7 +40,7 @@ class YiCam:
 
 
     def textToSpeech(self, text):
-        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={SPEAK_LANG}", text)
+        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={SPEAK_LANG}", text.encode('utf-8'))
     
 
     def sendSound(self, filename):

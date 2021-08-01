@@ -15,7 +15,7 @@ ONLINE_LIST = "Stato telecamere"
 
 
 def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
-    return f"Camera <code>{CAMNAME}</code> è <code>{STATUS}</code> con notifiche <code>{ENABLED}</code>\n"
+    return f"<code>{CAMNAME}</code> è <code>{STATUS}</code> con notifiche <code>{ENABLED}</code>\n"
 
 
 #Say tts function

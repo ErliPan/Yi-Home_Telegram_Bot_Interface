@@ -15,7 +15,7 @@ ONLINE_LIST = "Camera state"
 
 
 def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
-    return f"Camera <code>{CAMNAME}</code> is <code>{STATUS}</code> with notification <code>{ENABLED}</code>\n"
+    return f"<code>{CAMNAME}</code> is <code>{STATUS}</code> with notification <code>{ENABLED}</code>\n"
 
 
 #Say tts function
