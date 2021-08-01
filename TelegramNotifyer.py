@@ -69,5 +69,3 @@ class Telegram:
         
         if error:
             raise Exception("Runned out of alt bot")
-
-        

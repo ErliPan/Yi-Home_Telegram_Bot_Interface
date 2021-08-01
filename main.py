@@ -3,6 +3,7 @@ from DummyNotifyer import Dummy
 
 from YiHomeCamera import YiCam
 from IPCam import IPCam
+from SaveVideo import SaveVideo
 
 from TelegramChat import TelegramChat
 
@@ -16,7 +17,7 @@ from telegram.ext import *
 
 def main():
     #polymorphism (?)
-    notifyer = Telegram(CONFIG)
+    notifyer = SaveVideo(Telegram(CONFIG), CONFIG.MEDIA_SAVE_PATH)
     camera = YiCam
 
     cams = []

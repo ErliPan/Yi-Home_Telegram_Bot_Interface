@@ -39,6 +39,14 @@ class YiCam:
         self.connected = False
 
 
+    def textToSpeech(self, text):
+        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={self.config.SPEAK_LANG}", text)
+    
+
+    def sendSound(self, filename):
+        requests.post(f"http://{self.ip}:8080/cgi-bin/speaker.sh", io.open(filename, "rb"))
+
+
     def switchCamera(self, switchOn):
         status = "yes" if switchOn else "no"
         url = f"http://{self.ip}:8080/cgi-bin/camera_settings.sh?save_video_on_motion=yes&sensitivity={self.sensitivity}&ai_human_detection=no&sound_detection=no&sound_sensitivity=80&led={status}&ir=yes&rotate=no&switch_on={status}"
