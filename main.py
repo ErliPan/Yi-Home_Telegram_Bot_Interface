@@ -1,21 +1,13 @@
 from Notifyer.Telegram import Telegram
 from Notifyer.SaveVideo import SaveVideo
-
 from YiHomeCamera import YiCam
 from IPCam import IPCam
-
 from TelegramChat import TelegramChat
-
 from config.config import *
-
-import time
-import os
-import os.path
 from multiprocessing import Process
-
 from telegram import Update
 from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, CommandHandler
-
+import time, os, os.path
 
 class main:
 
