@@ -1,5 +1,6 @@
 TOKEN = "<<<TOKEN>>>"
 
+#Secondary token are used to bypass group chat api limit rate
 TOKEN_ALL = [
     TOKEN,
     "<<<TOKEN_SECONDARY>>>",
@@ -7,11 +8,10 @@ TOKEN_ALL = [
     ]
 
 CHATID = "<<<CHAT_ID>>>"
-ADMINID = "<<<ADMIN_USER_ID>>>"
 
 SNAPSHOT_TIMEOUT = 6
 SETTINGS_TIMEOUT = 18
-
+DELETION_DAYS = 7 #Delete photo/video after x days 0 for instant deletion
 
 SOUND_SAVE_PATH = "<<<PROJECT PATH>>>/sound"
 #Make sure that a leading / is always present no matter what
@@ -25,6 +25,7 @@ MEDIA_SAVE_PATH = (MEDIA_SAVE_PATH + "/").replace("//", "/")
 
 
 #[IP_ADDRESS, NICKNAME, SENSITIVITY]
+
 CAMERAS = [
     ["192.168.1.10", "camera_kitchen", "low"],
     ["192.168.1.11", "camera_hall", "low"],

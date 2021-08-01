@@ -30,17 +30,15 @@ class main:
             cam.start()
             TelegramChat(cam, dispatcher, self.updateStatus)
 
-
         dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
         dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
         dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech))
         dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
 
-
         botUpdater.start_polling()
 
         while True:
-            self.deleteOldMedia(MEDIA_SAVE_PATH, 7)
+            self.deleteOldMedia(MEDIA_SAVE_PATH, DELETION_DAYS)
             self.updateStatus(force = False)
             time.sleep(10)
 
@@ -115,9 +113,11 @@ class main:
     def generateKeyboard(self):
         keyboard = []
         for cam in self.cams:
+            action = NOTIFY_ON if not cam.sendNotification() else NOTIFY_OFF
             if cam.isOnline():
-                status = TURNING_ON if not cam.sendNotification() else TURNING_OFF
-                keyboard.append([f"{cam.getName()} {IMAGE}", f"{status} {cam.getName()}"])
+                keyboard.append([f"{cam.getName()} {IMAGE}", f"{action} {cam.getName()}"])
+            else:
+                keyboard.append([f"{action} {cam.getName()}"])
 
         keyboard.append([ONLINE_LIST])
         return keyboard
@@ -131,7 +131,6 @@ class main:
             msg += ONLINE_STATUS_MSG(cam.name, status, notification)
 
         return msg
-
 
 
 if __name__ == "__main__":

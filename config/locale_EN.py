@@ -3,6 +3,8 @@ CAMERA_DISABLED = "Camera disabled"
 MOTION_DETECTED = "Movement detected"
 STATUS_ON = "Turned on"
 STATUS_OFF = "Turned off"
+NOTIFY_ON = "Activate notification"
+NOTIFY_OFF = "Disable notification"
 TURNING_ON = "Turning on"
 TURNING_OFF = "Turning off"
 IMAGE = "Picture"
@@ -15,12 +17,12 @@ ONLINE_LIST = "Camera state"
 
 
 def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
-    return f"<code>{CAMNAME}</code> is <code>{STATUS}</code> with notification <code>{ENABLED}</code>\n"
+    return f"<code>{CAMNAME}</code> is <code>{STATUS}</code>, notification <code>{ENABLED}</code>\n"
 
 
 #Play sound function
 PLAY_VOICE = "Playing this"
-PLAY_COMMAND = "sound" #Sound
+PLAY_COMMAND = "sound" # /sound
 
 #Play sound function
 def PLAYING_FILE(filename):
@@ -34,6 +36,7 @@ def FILE_NOT_FOUND(filename):
 SPEAK_LANG = "en-US"
 EMPTY_ARGS = "Error incorrect args"
 SAY_COMMAND = "say"
+
 
 def TTS_SAYING(TEXT):
     return f"Saying {TEXT}"
