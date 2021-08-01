@@ -1,7 +1,7 @@
 from sys import argv
 import os
 import os.path
-from config import *
+from config.config import *
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ import io
 import os
 from ftplib import FTP, error_perm
 import time
-from config import *
+from config.config import *
 
 class YiCam:
 

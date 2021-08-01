@@ -1,13 +1,12 @@
-from TelegramNotifyer import Telegram
-from DummyNotifyer import Dummy
+from Notifyer.Telegram import Telegram
+from Notifyer.SaveVideo import SaveVideo
 
 from YiHomeCamera import YiCam
 from IPCam import IPCam
-from SaveVideo import SaveVideo
 
 from TelegramChat import TelegramChat
 
-from config import *
+from config.config import *
 
 import time
 import os

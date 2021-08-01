@@ -1,6 +1,6 @@
 import threading
 import time
-from config import *
+from config.config import *
 
 class IPCam:
 

@@ -1,6 +1,6 @@
 import telegram
 import random
-from config import *
+from config.config import *
 
 
 class Telegram:

@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import CallbackContext, MessageHandler, Filters
-from config import *
+from config.config import *
 import os.path
 
 
