@@ -1,0 +1,37 @@
+TOKEN = "<<<TOKEN>>>"
+
+TOKEN_ALL = [
+    TOKEN,
+    "<<<TOKEN_SECONDARY>>>",
+    "<<<TOKEN_SECONDARY>>>",
+    ]
+
+CHATID = "<<<CHAT_ID>>>"
+ADMINID = "<<<ADMIN_USER_ID>>>"
+
+SNAPSHOT_TIMEOUT = 6
+SETTINGS_TIMEOUT = 18
+
+
+SOUND_SAVE_PATH = "<<<PROJECT PATH>>>/sound"
+#Make sure that a leading / is always present no matter what
+SOUND_SAVE_PATH = (SOUND_SAVE_PATH + "/").replace("//", "/")
+
+AUDIO_TEMP_FILE = "audio_voice_file.mp4"
+
+MEDIA_SAVE_PATH = "<<<PROJECT PATH>>>/recording"
+#Make sure that a leading / is always present no matter what
+MEDIA_SAVE_PATH = (MEDIA_SAVE_PATH + "/").replace("//", "/")
+
+
+#[IP_ADDRESS, NICKNAME, SENSITIVITY]
+CAMERAS = [
+    ["192.168.1.10", "camera_kitchen", "low"],
+    ["192.168.1.11", "camera_hall", "low"],
+]
+
+
+#Use the right one or create one for your language
+
+#from locale_IT import *
+from locale_EN import *

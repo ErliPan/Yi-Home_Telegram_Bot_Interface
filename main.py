@@ -28,7 +28,7 @@ class main:
         self.cams = []
 
         for CAMERA in CAMERAS:
-            self.cams.append(IPCam(self.notifyer, camera(CAMERA[0]), CAMERA[1]))
+            self.cams.append(IPCam(self.notifyer, camera(CAMERA[0], sensitivity = CAMERA[2]), CAMERA[1]))
 
 
         botUpdater = Updater(TOKEN)
