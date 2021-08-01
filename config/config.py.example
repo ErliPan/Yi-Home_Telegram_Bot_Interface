@@ -11,7 +11,7 @@ CHATID = "<<<CHAT_ID>>>"
 
 SNAPSHOT_TIMEOUT = 6
 SETTINGS_TIMEOUT = 18
-DELETION_DAYS = 7 #Delete photo/video after x days 0 for instant deletion
+MEDIA_RETENTION = 7 #Delete photo/video after x days 0 for instant deletion
 
 SOUND_SAVE_PATH = "<<<PROJECT PATH>>>/sound"
 #Make sure that a leading / is always present no matter what

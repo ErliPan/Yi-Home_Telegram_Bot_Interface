@@ -38,7 +38,7 @@ class main:
         botUpdater.start_polling()
 
         while True:
-            self.deleteOldMedia(MEDIA_SAVE_PATH, DELETION_DAYS)
+            self.deleteOldMedia(MEDIA_SAVE_PATH, MEDIA_RETENTION)
             self.updateStatus(force = False)
             time.sleep(10)
 
