@@ -12,9 +12,8 @@ from config import *
 import time
 import os
 
-import telegram
-from telegram import *
-from telegram.ext import *
+from telegram import Update
+from telegram.ext import Updater, CallbackContext, MessageHandler, Filters
 
 
 class main:

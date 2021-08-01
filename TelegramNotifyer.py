@@ -1,5 +1,3 @@
-from telegram import *
-from telegram.ext import *
 import telegram
 import random
 from config import *

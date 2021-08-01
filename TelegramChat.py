@@ -1,5 +1,5 @@
-from telegram import *
-from telegram.ext import *
+from telegram import Update
+from telegram.ext import CallbackContext, MessageHandler, Filters
 from config import *
 
 
