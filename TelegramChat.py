@@ -15,8 +15,10 @@ class TelegramChat:
 
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{NOTIFY_ON} {self.camera.name}"), self.enableNotification))
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{NOTIFY_OFF} {self.camera.name}"), self.disableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_ON} {self.camera.name}"), self.enableCam))
+        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_OFF} {self.camera.name}"), self.disableCam))
+        
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} {IMAGE}"), self.getImmagine))
-
         dispatcher.add_handler(MessageHandler(Filters.regex(self.sayCommand), self.textToSpeech))
         dispatcher.add_handler(MessageHandler(Filters.regex(self.playSoundCommand), self.playSound))
 

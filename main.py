@@ -113,11 +113,10 @@ class main:
     def generateKeyboard(self):
         keyboard = []
         for cam in self.cams:
-            action = NOTIFY_ON if not cam.sendNotification() else NOTIFY_OFF
+            notifyAction = NOTIFY_ON if not cam.sendNotification() else NOTIFY_OFF
+            onOffAction = TURNING_ON if not cam.sendNotification() else TURNING_OFF
             if cam.isOnline():
-                keyboard.append([f"{cam.getName()} {IMAGE}", f"{action} {cam.getName()}"])
-            else:
-                keyboard.append([f"{action} {cam.getName()}"])
+                keyboard.append([f"{cam.getName()} {IMAGE}", f"{notifyAction} {cam.getName()}", f"{onOffAction} {cam.getName()}"])
 
         keyboard.append([ONLINE_LIST])
         return keyboard
