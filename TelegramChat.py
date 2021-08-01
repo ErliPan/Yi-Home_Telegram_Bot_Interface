@@ -1,6 +1,7 @@
 from telegram import *
 from telegram.ext import *
 
+
 class TelegramChat:
 
     def __init__(self, camera, dispatcher):

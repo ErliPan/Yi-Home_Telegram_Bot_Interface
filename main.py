@@ -34,7 +34,7 @@ def main():
     for cam in cams:
         cam.start()
         TelegramChat(cam, dispatcher)
-    
+
 
     botUpdater.start_polling()
 
