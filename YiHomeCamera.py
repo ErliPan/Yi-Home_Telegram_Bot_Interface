@@ -4,15 +4,15 @@ import io
 import os
 from ftplib import FTP, error_perm
 import time
+from config import *
 
 class YiCam:
 
     videoPath = "/tmp/sd/record"
     tmpFile = "tmp.mp4.tmp"
 
-    def __init__(self, config, ip, switchOn = True, sensitivity = "low"):
+    def __init__(self, ip, switchOn = True, sensitivity = "low"):
         self.ip = ip
-        self.config = config
         self.sensitivity = sensitivity
         self.connectFTP()
         #self.switchCamera(switchOn)
@@ -40,7 +40,7 @@ class YiCam:
 
 
     def textToSpeech(self, text):
-        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={self.config.SPEAK_LANG}", text)
+        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={SPEAK_LANG}", text)
     
 
     def sendSound(self, filename):
@@ -54,9 +54,9 @@ class YiCam:
 
         try:
             #Camera firmware bug, sometimes the settings are applied only on the second request
-            x = requests.get(url, timeout=self.config.SETTINGS_TIMEOUT)
+            x = requests.get(url, timeout=SETTINGS_TIMEOUT)
             if switchOn:
-                y = requests.get(url, timeout=self.config.SETTINGS_TIMEOUT)
+                y = requests.get(url, timeout=SETTINGS_TIMEOUT)
                 return x.status_code == 200 and y.status_code == 200
             else:
                 return x.status_code == 200
@@ -69,7 +69,7 @@ class YiCam:
         timeStamp = "yes" if timeStamp else "no"
 
         url = f"http://{self.ip}:8080/cgi-bin/snapshot.sh?res={highQuality}&watermark={timeStamp}"
-        response = requests.get(url, timeout=self.config.SNAPSHOT_TIMEOUT)
+        response = requests.get(url, timeout=SNAPSHOT_TIMEOUT)
         return io.BytesIO(response.content) if (response.headers.get("content-type") == "image/jpeg") else False
 
 

@@ -1,6 +1,6 @@
 import threading
 import time
-from locale import *
+from config import *
 
 class IPCam:
 

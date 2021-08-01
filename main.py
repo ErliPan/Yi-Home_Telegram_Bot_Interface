@@ -7,8 +7,7 @@ from SaveVideo import SaveVideo
 
 from TelegramChat import TelegramChat
 
-import config as CONFIG
-from locale import *
+from config import *
 
 import telegram
 import time
@@ -21,17 +20,17 @@ class main:
 
     def __init__(self):
         #polymorphism (?)
-        self.notifyer = SaveVideo(Telegram(CONFIG), CONFIG.MEDIA_SAVE_PATH)
+        self.notifyer = SaveVideo(Telegram(), MEDIA_SAVE_PATH)
         self.camera = YiCam
         self.cameraStatus = ""
 
         self.cams = []
 
-        for CAMERA in CONFIG.CAMERAS:
-            self.cams.append(IPCam(self.notifyer, self.camera(CONFIG, CAMERA[0]), CAMERA[1]))
+        for CAMERA in CAMERAS:
+            self.cams.append(IPCam(self.notifyer, self.camera(CAMERA[0]), CAMERA[1]))
 
 
-        botUpdater = Updater(CONFIG.TOKEN)
+        botUpdater = Updater(TOKEN)
         dispatcher = botUpdater.dispatcher
 
         dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))

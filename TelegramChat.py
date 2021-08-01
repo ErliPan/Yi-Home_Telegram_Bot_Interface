@@ -1,6 +1,6 @@
 from telegram import *
 from telegram.ext import *
-from locale import *
+from config import *
 
 
 class TelegramChat:

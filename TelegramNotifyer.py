@@ -2,15 +2,15 @@ from telegram import *
 from telegram.ext import *
 import telegram
 import random
+from config import *
 
 
 class Telegram:
 
-    def __init__(self, config):
-        self.config = config
+    def __init__(self):
         self.bots = []
 
-        for alt in config.TOKEN_ALL:
+        for alt in TOKEN_ALL:
             self.bots.append(telegram.Bot(alt))
 
 
@@ -22,7 +22,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendPhoto(self.config.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendPhoto(CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -42,7 +42,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendVideo(self.config.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendVideo(CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -65,7 +65,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendMessage(self.config.CHATID, text, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendMessage(CHATID, text, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
