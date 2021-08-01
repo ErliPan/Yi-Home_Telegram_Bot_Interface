@@ -53,6 +53,14 @@ class IPCam:
         return self.name
 
 
+    def textToSpeech(self, text):
+        self.Camera.textToSpeech(text)
+
+
+    def sendSound(self, filename):
+        self.Camera.sendSound(filename)
+
+
     def update(self):
         if (self.Camera.isConnected()):
             try:
