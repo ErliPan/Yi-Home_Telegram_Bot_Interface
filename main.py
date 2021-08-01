@@ -9,10 +9,10 @@ from TelegramChat import TelegramChat
 
 from config import *
 
-import telegram
 import time
 import os
 
+import telegram
 from telegram import *
 from telegram.ext import *
 

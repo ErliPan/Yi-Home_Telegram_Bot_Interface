@@ -160,4 +160,4 @@ class IPCam:
         except Exception as e:
             self.__printLog(f"FAILED TO SEND: {msg} exception: {e}")
             time.sleep(5)
-        time.sleep(1)
+        time.sleep(0.7)
