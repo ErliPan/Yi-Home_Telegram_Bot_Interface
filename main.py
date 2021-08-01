@@ -82,7 +82,8 @@ class main:
     def __playTTS(self, text, cams):
         proc = []
         for cam in cams:
-            proc.append(Process(target=cam.textToSpeech, args=(text, )))
+            if cam.isOnline():
+                proc.append(Process(target=cam.textToSpeech, args=(text, )))
         for p in proc:
             p.start()
         for p in proc:
@@ -92,7 +93,8 @@ class main:
     def __playAudio(self, filename, cams):
         proc = []
         for cam in cams:
-            proc.append(Process(target=cam.sendSound, args=(filename, )))
+            if cam.isOnline():
+                proc.append(Process(target=cam.sendSound, args=(filename, )))
         for p in proc:
             p.start()
         for p in proc:

@@ -55,15 +55,17 @@ class IPCam:
 
 
     def textToSpeech(self, text):
-        self.Camera.textToSpeech(text)
+        if self.Camera.isConnected():
+            self.Camera.textToSpeech(text)
 
 
     def sendSound(self, filename):
-        self.Camera.sendSound(filename)
+        if self.Camera.isConnected():
+            self.Camera.sendSound(filename)
 
 
     def update(self):
-        if (self.Camera.isConnected()):
+        if self.Camera.isConnected():
             try:
                 if self.counter % 1 == 0:
                     self.movementCheck()
@@ -123,19 +125,22 @@ class IPCam:
 
     def sendImage(self, caption="", force = False):
         if self.isEnabled():
-            res = self.Camera.getImage()
-            if res:
-                if force:
-                    notification = True
-                else:
-                    notification = self.notification
-                self.__printLog("Send photo")
-                self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
-            else:
-                self.__sendMessage(CAMERA_OFFLINE)
-            return res
+
+            if self.isOnline():
+                res = self.Camera.getImage()
+                if res:
+                    if force:
+                        notification = True
+                    else:
+                        notification = self.notification
+                    self.__printLog("Send photo")
+                    self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
+                    return True
+
+            self.__sendMessage(CAMERA_OFFLINE)
         else:
             self.__sendMessage(CAMERA_DISABLED)
+        return False
 
 
     def __movementTriggered(self):
