@@ -11,9 +11,11 @@ from config import *
 
 import time
 import os
+import os.path
+from multiprocessing import Process
 
 from telegram import Update
-from telegram.ext import Updater, CallbackContext, MessageHandler, Filters
+from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, TypeHandler
 
 
 class main:
@@ -21,19 +23,19 @@ class main:
     def __init__(self):
         #polymorphism (?)
         self.notifyer = SaveVideo(Telegram(), MEDIA_SAVE_PATH)
-        self.camera = YiCam
+        camera = YiCam
         self.cameraStatus = ""
-
         self.cams = []
 
         for CAMERA in CAMERAS:
-            self.cams.append(IPCam(self.notifyer, self.camera(CAMERA[0]), CAMERA[1]))
+            self.cams.append(IPCam(self.notifyer, camera(CAMERA[0]), CAMERA[1]))
 
 
         botUpdater = Updater(TOKEN)
         dispatcher = botUpdater.dispatcher
-
         dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
+        dispatcher.add_handler(commandHandler(PLAY_COMMAND, self.playSound))
+        dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
 
 
         #Make them start at the same time (more or less)
@@ -49,6 +51,33 @@ class main:
             self.updateStatus(force = False)
             time.sleep(10)
 
+
+    def playSound(self, fileName, update: Update, context: CallbackContext):
+        filename = SOUND_SAVE_PATH + " ".join(context.args)
+        if os.path.isfile(filename):
+            update.message.reply_text(PLAYING_FILE(filename))
+            self.__playAudio(filename, self.cams)
+        else:
+            update.message.reply_text(FILE_NOT_FOUND(filename))
+
+
+    def voiceMethod(self, update: Update, context: CallbackContext):
+        update.message.reply_text(PLAY_VOICE)
+        newFile = update.message.effective_attachment.get_file()
+        newFile.download(AUDIO_TEMP_FILE)
+        os.system("ffmpeg -i {AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {AUDIO_TEMP_FILE} -y")
+        self.__playAudio(AUDIO_TEMP_FILE, self.cams)
+        os.unlink(AUDIO_TEMP_FILE)
+
+
+    def __playAudio(self, filename, cams):
+        proc = []
+        for cam in cams:
+            proc.append(Process(target=cam.sendSound, args=(filename, )))
+        for p in proc:
+            p.start()
+        for p in proc:
+            p.join()
 
 
     def deleteOldMedia(self, path, olderThanDays):

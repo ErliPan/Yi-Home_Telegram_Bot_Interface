@@ -18,6 +18,18 @@ def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
     return f"<code>{CAMNAME}</code> is <code>{STATUS}</code> with notification <code>{ENABLED}</code>\n"
 
 
+#Play sound function
+PLAY_VOICE = "Playing this"
+PLAY_COMMAND = "/sound"
+
+#Play sound function
+def PLAYING_FILE(filename):
+    return f"Playing file: {filename}"
+
+
+def FILE_NOT_FOUND(filename):
+    return f"File not found: {filename}"
+
 #Say tts function
 SPEAK_LANG = "en-US"
 EMPTY_ARGS = "Error incorrect args"
