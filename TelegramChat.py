@@ -1,5 +1,6 @@
 from telegram import *
 from telegram.ext import *
+from locale import *
 
 
 class TelegramChat:
@@ -8,11 +9,11 @@ class TelegramChat:
         self.camera = camera
         self.updateStatus = callbackUpdate
         
-        self.sayCommand = f"/say {self.camera.name} "
+        self.sayCommand = f"{SAY_COMMAND} {self.camera.name} "
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} On"), self.enableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} Off"), self.disableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} Foto"), self.getImmagine))
+        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_ON} {self.camera.name}"), self.enableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_OFF} {self.camera.name}"), self.disableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} {IMAGE}"), self.getImmagine))
 
         dispatcher.add_handler(MessageHandler(Filters.regex(self.sayCommand), self.textToSpeech))
 
@@ -35,25 +36,25 @@ class TelegramChat:
 
     def __setNotification(self, enabled, update: Update, context: CallbackContext):
         self.camera.setNotification(enabled)
-        self.updateStatus(True)
+        self.updateStatus()
     
 
     def textToSpeech(self, update: Update, context: CallbackContext):
         text = update.message.text.replace(self.sayCommand, "")
         if len(text) == 0:
-            update.message.reply_text(f"err arg empty")
+            update.message.reply_text(EMPTY_ARGS)
         else:
-            update.message.reply_text(f"Saying {text}")
+            update.message.reply_text(TTS_SAYING(text))
             self.camera.textToSpeech(text)
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
-        status = "On" if enabled else "Off"
-        update.message.reply_text(f"Trying to set {self.camera.name} {status}...")
+        status = STATUS_ONLINE if enabled else STATUS_OFFLINE
+        update.message.reply_text(SET_STATUS(self.camera.name, status))
         if self.camera.enableCam(enabled):
-            update.message.reply_text(f"{self.camera.name} is {status}")
+            update.message.reply_text(CAMERA_STATE(self.camera.name, status))
         else:
-            update.message.reply_text(f"Trying to set {self.camera.name} failed")
+            update.message.reply_text(CAMERA_SET_FAILED(self.camera.name))
 
 
     def getImmagine(self, update: Update, context: CallbackContext):

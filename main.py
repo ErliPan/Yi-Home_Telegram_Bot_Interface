@@ -8,6 +8,7 @@ from SaveVideo import SaveVideo
 from TelegramChat import TelegramChat
 
 import config as CONFIG
+from locale import *
 
 import telegram
 import time
@@ -22,6 +23,7 @@ class main:
         #polymorphism (?)
         self.notifyer = SaveVideo(Telegram(CONFIG), CONFIG.MEDIA_SAVE_PATH)
         self.camera = YiCam
+        self.cameraStatus = ""
 
         self.cams = []
 
@@ -32,6 +34,8 @@ class main:
         botUpdater = Updater(CONFIG.TOKEN)
         dispatcher = botUpdater.dispatcher
 
+        dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
+
 
         #Make them start at the same time (more or less)
         for cam in self.cams:
@@ -41,19 +45,17 @@ class main:
 
         botUpdater.start_polling()
 
-        self.cameraStatus = ""
-
         while True:
-            self.updateStatus()
+            self.updateStatus(force = False)
             time.sleep(10)
 
 
-    def updateStatus(self, force = False):
+    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):
         stat = self.getOnlineStatus()
         if stat != self.cameraStatus or force:
             self.cameraStatus = stat
             try:
-                self.notifyer.sendMessage("Camera Status", self.cameraStatus, reply_markup = self.generateKeyboard())
+                self.notifyer.sendMessage(CAMERA_STATUS, self.cameraStatus, reply_markup = self.generateKeyboard())
             except Exception as e:
                 print(e) #If too many messages have been sent, an exception can occur #FIXME
 
@@ -62,18 +64,19 @@ class main:
         keyboard = []
         for cam in self.cams:
             if cam.isOnline():
-                status = "On" if not cam.sendNotification() else "Off"
-                keyboard.append([f"{cam.getName()} Foto", f"{cam.getName()} {status}"])
+                status = TURNING_ON if not cam.sendNotification() else TURNING_OFF
+                keyboard.append([f"{cam.getName()} {IMAGE}", f"{status} {cam.getName()}"])
 
+        keyboard.append([ONLINE_LIST])
         return keyboard
 
 
     def getOnlineStatus(self):
         msg = ""
         for cam in self.cams:
-            status = "ONLINE" if cam.isOnline() else "OFFLINE"
-            notification = "YES" if cam.sendNotification() else "NO"
-            msg += f"Camera <code>{cam.name}</code> is <code>{status}</code> notification <code>{notification}</code>\n"
+            status = STATUS_ONLINE if cam.isOnline() else STATUS_OFFLINE
+            notification = INTENT_YES if cam.sendNotification() else INTENT_NO
+            msg += ONLINE_STATUS_MSG(cam.name, status, notification)
 
         return msg
 

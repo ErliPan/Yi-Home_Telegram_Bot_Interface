@@ -1,5 +1,6 @@
 import threading
 import time
+from locale import *
 
 class IPCam:
 
@@ -131,18 +132,18 @@ class IPCam:
                 self.__printLog("Send photo")
                 self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
             else:
-                self.__sendMessage("Camera offline")
+                self.__sendMessage(CAMERA_OFFLINE)
             return res
         else:
-            self.__sendMessage("Camera is disabled")
+            self.__sendMessage(CAMERA_DISABLED)
 
 
     def __movementTriggered(self):
         """
-        self.__sendMessage("Movimento")
+        self.__sendMessage(MOTION_DETECTED)
         self.sendImage()
         """
-        self.sendImage("Movimento")
+        self.sendImage(MOTION_DETECTED)
 
 
     def __printLog(self, msg):
