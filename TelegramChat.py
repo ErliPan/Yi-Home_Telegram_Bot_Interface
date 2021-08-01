@@ -53,7 +53,7 @@ class TelegramChat:
 
     def playSound(self, update: Update, context: CallbackContext):
         print("self.playSoundCommand")
-        filename = SOUND_SAVE_PATH + update.message.text.replace(self.playSoundCommand, "")
+        filename = SOUND_SAVE_PATH + update.message.text.replace(self.playSoundCommand, "") + ".wav"
         if os.path.isfile(filename):
             update.message.reply_text(PLAYING_FILE(filename))
             self.camera.sendSound(filename)

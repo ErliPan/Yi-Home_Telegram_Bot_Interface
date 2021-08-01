@@ -61,7 +61,7 @@ class main:
 
 
     def playSound(self, update: Update, context: CallbackContext):
-        filename = SOUND_SAVE_PATH + " ".join(context.args)
+        filename = SOUND_SAVE_PATH + " ".join(context.args) + ".wav"
         if os.path.isfile(filename):
             update.message.reply_text(PLAYING_FILE(filename))
             self.__playAudio(filename, self.cams)
