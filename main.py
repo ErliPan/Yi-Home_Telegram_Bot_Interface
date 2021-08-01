@@ -11,6 +11,7 @@ from config import *
 
 import telegram
 import time
+import os
 
 from telegram import *
 from telegram.ext import *
@@ -45,8 +46,19 @@ class main:
         botUpdater.start_polling()
 
         while True:
+            self.deleteOldMedia(MEDIA_SAVE_PATH, 7)
             self.updateStatus(force = False)
             time.sleep(10)
+
+
+    def deleteOldMedia(self, path, olderThanDays):
+        current_time = time.time()
+        for f in os.listdir(path):
+            f = path + f
+            creation_time = os.path.getctime(f)
+            if (current_time - creation_time) // (24 * 3600) >= olderThanDays:
+                os.unlink(f)
+                print('{} removed'.format(f))
 
 
     def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):

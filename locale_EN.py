@@ -19,6 +19,7 @@ def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
 
 
 #Say tts function
+SPEAK_LANG = "en-US"
 EMPTY_ARGS = "Error incorrect args"
 SAY_COMMAND = "/say"
 
