@@ -15,7 +15,7 @@ import os.path
 from multiprocessing import Process
 
 from telegram import Update
-from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, TypeHandler
+from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, CommandHandler
 
 
 class main:
@@ -34,7 +34,7 @@ class main:
         botUpdater = Updater(TOKEN)
         dispatcher = botUpdater.dispatcher
         dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
-        dispatcher.add_handler(commandHandler(PLAY_COMMAND, self.playSound))
+        dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
         dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
 
 
@@ -52,7 +52,7 @@ class main:
             time.sleep(10)
 
 
-    def playSound(self, fileName, update: Update, context: CallbackContext):
+    def playSound(self, update: Update, context: CallbackContext):
         filename = SOUND_SAVE_PATH + " ".join(context.args)
         if os.path.isfile(filename):
             update.message.reply_text(PLAYING_FILE(filename))
@@ -65,9 +65,10 @@ class main:
         update.message.reply_text(PLAY_VOICE)
         newFile = update.message.effective_attachment.get_file()
         newFile.download(AUDIO_TEMP_FILE)
-        os.system("ffmpeg -i {AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {AUDIO_TEMP_FILE} -y")
-        self.__playAudio(AUDIO_TEMP_FILE, self.cams)
+        os.system(f"ffmpeg -i {AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {AUDIO_TEMP_FILE}.wav -y")
+        self.__playAudio(AUDIO_TEMP_FILE + ".wav", self.cams)
         os.unlink(AUDIO_TEMP_FILE)
+        os.unlink(AUDIO_TEMP_FILE + ".wav")
 
 
     def __playAudio(self, filename, cams):

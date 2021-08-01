@@ -20,7 +20,7 @@ def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
 
 #Play sound function
 PLAY_VOICE = "Playing this"
-PLAY_COMMAND = "/sound"
+PLAY_COMMAND = "sound" #Sound
 
 #Play sound function
 def PLAYING_FILE(filename):
