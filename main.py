@@ -43,6 +43,8 @@ class main:
 
     
     def textToSpeech(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         text = " ".join(context.args)
         if len(text) == 0:
             update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
@@ -52,6 +54,8 @@ class main:
 
 
     def playSound(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         text = " ".join(context.args)
         if len(text) == 0:
             update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
@@ -65,6 +69,8 @@ class main:
 
 
     def playVoice(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         update.message.reply_text(PLAY_VOICE, parse_mode="HTML")
         update.message.effective_attachment.get_file().download(AUDIO_TEMP_FILE)
         #Convert to 16 bit mono
@@ -109,6 +115,8 @@ class main:
 
 
     def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):
+        if force and update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         stat = self.__getOnlineStatus()
         if stat != self.cameraStatus or force:
             self.cameraStatus = stat
