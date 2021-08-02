@@ -4,11 +4,11 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 ## Features
 + Motion detection
 > Works by monitoring a tmp file that is created only when the camera detects a motion
-<img src="https://user-images.githubusercontent.com/45854343/127867115-da841676-2be6-4328-a8c3-335d1801fd0a.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867115-da841676-2be6-4328-a8c3-335d1801fd0a.PNG" max-width="100px" width="40%" height="40%">
 
 + Get a picture from the camera
 > Uses the snapshot.sh functionality to get a real time picture
-<img src="https://user-images.githubusercontent.com/45854343/127867139-5e337947-62d4-4481-90c2-19cfc313a7fd.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867139-5e337947-62d4-4481-90c2-19cfc313a7fd.PNG" max-width="100px" width="40%" height="40%">
 
 + Multi camera support
 > Add as many cameras as you please
@@ -27,11 +27,11 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 
 + Play any preconfigured sound to a single camera
 > Same but limited to a single camera
-<img src="https://user-images.githubusercontent.com/45854343/127867186-5a267597-7146-466e-94c9-2e5f4a35a371.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867186-5a267597-7146-466e-94c9-2e5f4a35a371.PNG" max-width="100px" width="40%" height="40%">
 
 + Send a voice note and it will play on all cameras
 > Send a voice message and ffmpeg will convert it and play simultameusly to all cameras
-<img src="https://user-images.githubusercontent.com/45854343/127867198-459bdc37-5f80-46c9-ae74-d636883a1e83.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867198-459bdc37-5f80-46c9-ae74-d636883a1e83.PNG" max-width="100px" width="40%" height="40%">
 
 + Alert if a camera goes offline
 > No description
@@ -41,19 +41,19 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 
 + Function to enable/disable motion notification
 > Mute the camera alerts
-<img src="https://user-images.githubusercontent.com/45854343/127867218-77129b4d-50c4-448c-86bc-f7a7b9f1fd49.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867218-77129b4d-50c4-448c-86bc-f7a7b9f1fd49.PNG" max-width="100px" width="40%" height="40%">
 
 + Function to enable/disable the camera while retaining the audio functionalities
 > Disable video and photo functionalities of the camera
-<img src="https://user-images.githubusercontent.com/45854343/127867233-244d9274-6174-450a-8e65-cb3ea66bf6c0.PNG" max-width="400px" width="40%" height="40%">
-<img src="https://user-images.githubusercontent.com/45854343/127867248-46935386-5c8a-4da8-bbc0-16bbc97c595b.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867233-244d9274-6174-450a-8e65-cb3ea66bf6c0.PNG" max-width="100px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867248-46935386-5c8a-4da8-bbc0-16bbc97c595b.PNG" max-width="100px" width="40%" height="40%">
 
 + Media retention settings
 > All media are saved into a folder (default: recording/) and will be deleted in X days. Set 0 to delete immediately
 
 + Multi language
 > Currently supports IT and EN languages. You can add more by adding a locale file in config/
-<img src="https://user-images.githubusercontent.com/45854343/127867263-75aea1ab-ef87-4573-8309-32d1f37f02c8.PNG" max-width="400px" width="40%" height="40%">
+<img src="https://user-images.githubusercontent.com/45854343/127867263-75aea1ab-ef87-4573-8309-32d1f37f02c8.PNG" max-width="100px" width="40%" height="40%">
 
 
 ## Note
