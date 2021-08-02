@@ -6,11 +6,9 @@ CAMERA_STATUS = "Stato telecamere📹"
 #Say tts function
 SPEAK_LANG = "it-IT"
 EMPTY_ARGS = "❌Errore manca parametri"
-SAY_COMMAND = "dici"
 
 #Play sound function
 PLAY_VOICE = "📢Riproduco questo"
-PLAY_COMMAND = "suono" # /suono
 
 NOTIFICATION_YES = "🔔"
 NOTIFICATION_NO = "🔕"
