@@ -12,8 +12,8 @@ SAY_COMMAND = "say"
 PLAY_VOICE = "📢Playing this"
 PLAY_COMMAND = "sound" # /sound
 
-NOTIFICATION_YES = "Yes"
-NOTIFICATION_NO = "No"
+NOTIFICATION_YES = "🔔"
+NOTIFICATION_NO = "🔕"
 
 WAIT = "⏳Elaborating...⏳"
 
