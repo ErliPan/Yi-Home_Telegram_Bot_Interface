@@ -1,6 +1,8 @@
 # Yi-Home_Telegram_Bot_Interface
 Ditch Xiaomi's cloud and use a Telegram bot instead
 ***
+<img src="https://user-images.githubusercontent.com/45854343/127918977-686e2c31-c550-4d2c-bd4d-dcfeaf49085e.JPG" width="350px">
+***
 ## Features
 + Motion detection
 > Works by monitoring a tmp file that is created only when the camera detects a motion
