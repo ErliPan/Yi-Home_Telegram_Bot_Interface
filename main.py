@@ -132,7 +132,7 @@ class main:
         for cam in self.cams:
             if cam.isOnline():
                 if cam.isEnabled():
-                    notification = INTENT_YES if cam.sendNotification() else INTENT_NO
+                    notification = NOTIFICATION_YES if cam.sendNotification() else NOTIFICATION_NO
                     msg += STATUS_ONLINE(cam.name, notification)
                 else:
                     msg += STATUS_DISABLED(cam.name)
