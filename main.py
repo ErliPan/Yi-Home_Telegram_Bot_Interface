@@ -45,17 +45,24 @@ class main:
     
     def textToSpeech(self, update: Update, context: CallbackContext):
         text = " ".join(context.args)
-        update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
-        self.__playTTS(text, self.cams)
+        if len(text) == 0:
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
+        else:
+            update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
+            self.__playTTS(text, self.cams)
 
 
     def playSound(self, update: Update, context: CallbackContext):
-        filename = SOUND_SAVE_PATH + " ".join(context.args) + ".wav"
-        if os.path.isfile(filename):
-            update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
-            self.__playAudio(filename, self.cams)
+        text = " ".join(context.args)
+        if len(text) == 0:
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
         else:
-            update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
+            filename = SOUND_SAVE_PATH + text + ".wav"
+            if os.path.isfile(filename):
+                update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
+                self.__playAudio(filename, self.cams)
+            else:
+                update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def voiceMethod(self, update: Update, context: CallbackContext):
