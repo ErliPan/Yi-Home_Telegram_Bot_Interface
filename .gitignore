@@ -5,4 +5,4 @@ sound/*.wav
 recording/*
 config.py
 utility
-utility*.py
+utility/*.py
