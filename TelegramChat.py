@@ -25,18 +25,26 @@ class TelegramChat:
 
 
     def enableCam(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         self.__setCamera(True, update, CallbackContext)
 
 
     def disableCam(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         self.__setCamera(False, update, CallbackContext)
 
 
     def enableNotification(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         self.__setNotification(True, update, CallbackContext)
     
 
     def disableNotification(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         self.__setNotification(False, update, CallbackContext)
 
 
@@ -59,6 +67,8 @@ class TelegramChat:
 
 
     def textToSpeech(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         text = update.message.text.replace(self.sayCommand, "")
         if len(text) == 0:
             update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
@@ -68,6 +78,8 @@ class TelegramChat:
 
 
     def playSound(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         text = update.message.text.replace(self.playSoundCommand, "")
         if len(text) == 0:
             update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
@@ -81,4 +93,6 @@ class TelegramChat:
 
 
     def getImmagine(self, update: Update, context: CallbackContext):
+        if update.message.chat.id != CHATID:
+            return #Ignore messages not from the chatid
         self.camera.sendImage(force = True)
