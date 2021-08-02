@@ -18,9 +18,8 @@ class main:
         self.cameraStatus = ""
         self.cams = []
 
-        for CAMERA in CAMERAS:
-            self.cams.append(IPCam(self.notifyer, camera(CAMERA[0], sensitivity = CAMERA[2]), CAMERA[1]))
-
+        for cam in CAMERAS:
+            self.cams.append(IPCam(self.notifyer, camera(cam[0], sensitivity = cam[2]), cam[1]))
 
         botUpdater = Updater(TOKEN)
         dispatcher = botUpdater.dispatcher
@@ -30,10 +29,10 @@ class main:
             cam.start()
             TelegramChat(cam, dispatcher, self.updateStatus)
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(CAMERA_STATUS), self.updateStatus))
-        dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
-        dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech))
-        dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CAMERA_STATUS), self.updateStatus)) #Get camera status
+        dispatcher.add_handler(MessageHandler(Filters.voice, self.playVoice)) #Audio message
+        dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound)) #Play .wav audio
+        dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech)) #TTS command
 
         botUpdater.start_polling()
 
@@ -65,10 +64,10 @@ class main:
                 update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
-    def voiceMethod(self, update: Update, context: CallbackContext):
+    def playVoice(self, update: Update, context: CallbackContext):
         update.message.reply_text(PLAY_VOICE, parse_mode="HTML")
-        newFile = update.message.effective_attachment.get_file()
-        newFile.download(AUDIO_TEMP_FILE)
+        update.message.effective_attachment.get_file().download(AUDIO_TEMP_FILE)
+        #Convert to 16 bit mono
         os.system(f"ffmpeg -i {AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {AUDIO_TEMP_FILE}.wav -y")
         self.__playAudio(AUDIO_TEMP_FILE + ".wav", self.cams)
         os.unlink(AUDIO_TEMP_FILE)
@@ -76,6 +75,7 @@ class main:
 
 
     def __playTTS(self, text, cams):
+        #Use multiprocessing to send the command all at the same time
         proc = []
         for cam in cams:
             if cam.isOnline():
@@ -87,6 +87,7 @@ class main:
 
 
     def __playAudio(self, filename, cams):
+        #Use multiprocessing to send the command all at the same time
         proc = []
         for cam in cams:
             if cam.isOnline():
@@ -108,16 +109,16 @@ class main:
 
 
     def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):
-        stat = self.getOnlineStatus()
+        stat = self.__getOnlineStatus()
         if stat != self.cameraStatus or force:
             self.cameraStatus = stat
             try:
-                self.notifyer.sendMessage(CAMERA_STATUS, self.cameraStatus, reply_markup = self.generateKeyboard())
+                self.notifyer.sendMessage(CAMERA_STATUS, self.cameraStatus, reply_markup = self.__generateKeyboard())
             except Exception as e:
                 print(e) #If too many messages have been sent, an exception can occur #FIXME
 
 
-    def generateKeyboard(self):
+    def __generateKeyboard(self):
         keyboard = []
         for cam in self.cams:
             notifyAction = NOTIFY_OFF(cam.getName()) if cam.sendNotification() else NOTIFY_ON(cam.getName())
@@ -134,7 +135,7 @@ class main:
         return keyboard
 
 
-    def getOnlineStatus(self):
+    def __getOnlineStatus(self):
         msg = ""
         for cam in self.cams:
             if cam.isOnline():

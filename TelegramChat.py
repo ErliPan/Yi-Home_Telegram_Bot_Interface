@@ -43,28 +43,6 @@ class TelegramChat:
     def __setNotification(self, enabled, update: Update, context: CallbackContext):
         self.camera.setNotification(enabled)
         self.updateStatus()
-    
-
-    def textToSpeech(self, update: Update, context: CallbackContext):
-        text = update.message.text.replace(self.sayCommand, "")
-        if len(text) == 0:
-            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
-        else:
-            update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
-            self.camera.textToSpeech(text)
-    
-
-    def playSound(self, update: Update, context: CallbackContext):
-        text = update.message.text.replace(self.playSoundCommand, "")
-        if len(text) == 0:
-            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
-        else:
-            filename = SOUND_SAVE_PATH + text + ".wav"
-            if os.path.isfile(filename):
-                update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
-                self.camera.sendSound(filename)
-            else:
-                update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
@@ -78,6 +56,28 @@ class TelegramChat:
             update.message.reply_text(SET_STATUS_FAILED(), parse_mode="HTML")
 
         self.updateStatus()
+
+
+    def textToSpeech(self, update: Update, context: CallbackContext):
+        text = update.message.text.replace(self.sayCommand, "")
+        if len(text) == 0:
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
+        else:
+            update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
+            self.camera.textToSpeech(text)
+
+
+    def playSound(self, update: Update, context: CallbackContext):
+        text = update.message.text.replace(self.playSoundCommand, "")
+        if len(text) == 0:
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
+        else:
+            filename = SOUND_SAVE_PATH + text + ".wav"
+            if os.path.isfile(filename):
+                update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
+                self.camera.sendSound(filename)
+            else:
+                update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def getImmagine(self, update: Update, context: CallbackContext):
