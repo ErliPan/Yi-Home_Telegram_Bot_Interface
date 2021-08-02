@@ -12,8 +12,8 @@ SAY_COMMAND = "say"
 PLAY_VOICE = "📢Playing this"
 PLAY_COMMAND = "sound" # /sound
 
-INTENT_YES = "✅"
-INTENT_NO = "❌"
+INTENT_YES = "✔️"
+INTENT_NO = "✖️"
 
 WAIT = "⏳Elaborating...⏳"
 
