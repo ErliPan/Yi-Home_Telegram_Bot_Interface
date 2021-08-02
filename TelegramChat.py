@@ -13,11 +13,11 @@ class TelegramChat:
         self.sayCommand = f"/{SAY_COMMAND} {self.camera.name} "
         self.playSoundCommand = f"/{PLAY_COMMAND} {self.camera.name} "
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{NOTIFY_ON} {self.camera.name}"), self.enableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{NOTIFY_OFF} {self.camera.name}"), self.disableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_ON} {self.camera.name}"), self.enableCam))
-        dispatcher.add_handler(MessageHandler(Filters.regex(f"{TURNING_OFF} {self.camera.name}"), self.disableCam))
-        
+        dispatcher.add_handler(MessageHandler(Filters.regex(NOTIFY_ON(self.camera.name)), self.enableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(NOTIFY_OFF(self.camera.name)), self.disableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(TURNING_ON(self.camera.name)), self.enableCam))
+        dispatcher.add_handler(MessageHandler(Filters.regex(TURNING_OFF(self.camera.name)), self.disableCam))
+
         dispatcher.add_handler(MessageHandler(Filters.regex(f"{self.camera.name} {IMAGE}"), self.getImmagine))
         dispatcher.add_handler(MessageHandler(Filters.regex(self.sayCommand), self.textToSpeech))
         dispatcher.add_handler(MessageHandler(Filters.regex(self.playSoundCommand), self.playSound))
@@ -47,9 +47,9 @@ class TelegramChat:
     def textToSpeech(self, update: Update, context: CallbackContext):
         text = update.message.text.replace(self.sayCommand, "")
         if len(text) == 0:
-            update.message.reply_text(EMPTY_ARGS)
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
         else:
-            update.message.reply_text(TTS_SAYING(text))
+            update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
             self.camera.textToSpeech(text)
     
 
@@ -57,19 +57,22 @@ class TelegramChat:
         print("self.playSoundCommand")
         filename = SOUND_SAVE_PATH + update.message.text.replace(self.playSoundCommand, "") + ".wav"
         if os.path.isfile(filename):
-            update.message.reply_text(PLAYING_FILE(filename))
+            update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
             self.camera.sendSound(filename)
         else:
-            update.message.reply_text(FILE_NOT_FOUND(filename))
+            update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
-        status = STATUS_ONLINE if enabled else STATUS_OFFLINE
-        update.message.reply_text(SET_STATUS(self.camera.name, status))
-        if self.camera.enableCam(enabled):
-            update.message.reply_text(CAMERA_STATE(self.camera.name, status))
+        if enabled:
+            update.message.reply_text(SET_STATUS_ON(self.camera.name), parse_mode="HTML")
         else:
-            update.message.reply_text(CAMERA_SET_FAILED(self.camera.name))
+            update.message.reply_text(SET_STATUS_OFF(self.camera.name), parse_mode="HTML")
+
+        if self.camera.enableCam(enabled) == False:
+            update.message.reply_text(SET_STATUS_FAILED(), parse_mode="HTML")
+
+        self.updateStatus()
 
 
     def getImmagine(self, update: Update, context: CallbackContext):

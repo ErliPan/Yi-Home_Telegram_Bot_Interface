@@ -30,7 +30,7 @@ class main:
             cam.start()
             TelegramChat(cam, dispatcher, self.updateStatus)
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(ONLINE_LIST), self.updateStatus))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CAMERA_STATUS), self.updateStatus))
         dispatcher.add_handler(CommandHandler(PLAY_COMMAND, self.playSound))
         dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech))
         dispatcher.add_handler(MessageHandler(Filters.voice, self.voiceMethod))
@@ -44,22 +44,22 @@ class main:
 
     
     def textToSpeech(self, update: Update, context: CallbackContext):
-        text = SOUND_SAVE_PATH + " ".join(context.args)
-        update.message.reply_text(TTS_SAYING(text))
-        self.__playTTS(text)
+        text = " ".join(context.args)
+        update.message.reply_text(TTS_SAYING(text), parse_mode="HTML")
+        self.__playTTS(text, self.cams)
 
 
     def playSound(self, update: Update, context: CallbackContext):
         filename = SOUND_SAVE_PATH + " ".join(context.args) + ".wav"
         if os.path.isfile(filename):
-            update.message.reply_text(PLAYING_FILE(filename))
+            update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
             self.__playAudio(filename, self.cams)
         else:
-            update.message.reply_text(FILE_NOT_FOUND(filename))
+            update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def voiceMethod(self, update: Update, context: CallbackContext):
-        update.message.reply_text(PLAY_VOICE)
+        update.message.reply_text(PLAY_VOICE, parse_mode="HTML")
         newFile = update.message.effective_attachment.get_file()
         newFile.download(AUDIO_TEMP_FILE)
         os.system(f"ffmpeg -i {AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {AUDIO_TEMP_FILE}.wav -y")
@@ -113,21 +113,26 @@ class main:
     def generateKeyboard(self):
         keyboard = []
         for cam in self.cams:
-            notifyAction = NOTIFY_ON if not cam.sendNotification() else NOTIFY_OFF
-            onOffAction = TURNING_ON if not cam.sendNotification() else TURNING_OFF
+            notifyAction = NOTIFY_OFF(cam.getName()) if cam.sendNotification() else NOTIFY_ON(cam.getName())
+            onOffAction = TURNING_OFF(cam.getName()) if cam.isEnabled() else TURNING_ON(cam.getName())
             if cam.isOnline():
-                keyboard.append([f"{cam.getName()} {IMAGE}", f"{notifyAction} {cam.getName()}", f"{onOffAction} {cam.getName()}"])
+                keyboard.append([IMAGE(cam.getName()), notifyAction, onOffAction])
 
-        keyboard.append([ONLINE_LIST])
+        keyboard.append([CAMERA_STATUS])
         return keyboard
 
 
     def getOnlineStatus(self):
         msg = ""
         for cam in self.cams:
-            status = STATUS_ONLINE if cam.isOnline() else STATUS_OFFLINE
-            notification = INTENT_YES if cam.sendNotification() else INTENT_NO
-            msg += ONLINE_STATUS_MSG(cam.name, status, notification)
+            if cam.isOnline():
+                if cam.isEnabled():
+                    notification = INTENT_YES if cam.sendNotification() else INTENT_NO
+                    msg += STATUS_ONLINE(cam.name, notification)
+                else:
+                    msg += STATUS_DISABLED(cam.name)
+            else:
+                msg += STATUS_OFFLINE(cam.name)
 
         return msg
 
