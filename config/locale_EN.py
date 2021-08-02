@@ -41,7 +41,7 @@ def STATUS_OFFLINE(CAMNAME):
 
 
 def STATUS_DISABLED(CAMNAME):
-    return f"⚠️<code>{CAMNAME}</code> is <code>disabilitato</code>\n"
+    return f"⚠️<code>{CAMNAME}</code> is <code>disabled</code>\n"
 
 
 def STATUS_ONLINE(CAMNAME, NOTIFY):
