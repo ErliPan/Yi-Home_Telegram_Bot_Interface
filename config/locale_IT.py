@@ -15,6 +15,8 @@ PLAY_COMMAND = "suono" # /suono
 INTENT_YES = "Si"
 INTENT_NO = "No"
 
+WAIT = "Operazione in corso..."
+
 
 def NOTIFY_ON(CAMNAME):
     return f"Abilita avvisi {CAMNAME}"

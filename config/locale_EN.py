@@ -15,6 +15,7 @@ PLAY_COMMAND = "sound" # /sound
 INTENT_YES = "Yes"
 INTENT_NO = "No"
 
+WAIT = "Elaborating..."
 
 def NOTIFY_ON(CAMNAME):
     return f"Activate alert {CAMNAME}"

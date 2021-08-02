@@ -1,3 +1,4 @@
+import telegram
 from telegram import Update
 from telegram.ext import CallbackContext, MessageHandler, Filters
 from config.config import *
@@ -64,10 +65,11 @@ class TelegramChat:
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
+        reply_markup = telegram.ReplyKeyboardMarkup([[WAIT]])
         if enabled:
-            update.message.reply_text(SET_STATUS_ON(self.camera.name), parse_mode="HTML")
+            update.message.reply_text(SET_STATUS_ON(self.camera.name), parse_mode="HTML", reply_markup = reply_markup)
         else:
-            update.message.reply_text(SET_STATUS_OFF(self.camera.name), parse_mode="HTML")
+            update.message.reply_text(SET_STATUS_OFF(self.camera.name), parse_mode="HTML", reply_markup = reply_markup)
 
         if self.camera.enableCam(enabled) == False:
             update.message.reply_text(SET_STATUS_FAILED(), parse_mode="HTML")
