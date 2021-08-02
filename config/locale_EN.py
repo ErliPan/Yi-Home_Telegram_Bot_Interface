@@ -6,16 +6,15 @@ CAMERA_STATUS = "Cameras status"
 #Say tts function
 SPEAK_LANG = "en-US"
 EMPTY_ARGS = "Error incorrect args"
-SAY_COMMAND = "say"
 
 #Play sound function
 PLAY_VOICE = "Playing this"
-PLAY_COMMAND = "sound" # /sound
 
 NOTIFICATION_YES = "Yes"
 NOTIFICATION_NO = "No"
 
 WAIT = "Elaborating..."
+
 
 def NOTIFY_ON(CAMNAME):
     return f"Activate alert {CAMNAME}"
