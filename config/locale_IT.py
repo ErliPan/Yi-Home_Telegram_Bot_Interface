@@ -1,54 +1,79 @@
 CAMERA_OFFLINE = "Camera offline"
 CAMERA_DISABLED = "Camera disabilitato"
 MOTION_DETECTED = "Movimento"
-STATUS_ON = "Acceso"
-STATUS_OFF = "Spento"
-NOTIFY_ON = "🔔"
-NOTIFY_OFF = "🔕"
-TURNING_ON = "Accendi"
-TURNING_OFF = "Spegni"
-IMAGE = "Foto"
-CAMERA_STATUS = "Stato telecamere 📹"
-STATUS_ONLINE = "Online✅"
-STATUS_OFFLINE = "Offline⛔️"
-INTENT_YES = "Si"
-INTENT_NO = "No"
-ONLINE_LIST = "Stato telecamere"
-
-
-def ONLINE_STATUS_MSG(CAMNAME, STATUS, ENABLED):
-    return f"<code>{CAMNAME}</code> è <code>{STATUS}</code>, notifiche {ENABLED}\n"
-
-
-#Play sound function
-PLAY_VOICE = "Riproduco questo"
-PLAY_COMMAND = "suono" # /suono
-
-#Play sound function
-def PLAYING_FILE(filename):
-    return f"Riproduco file: {filename}"
-
-
-def FILE_NOT_FOUND(filename):
-    return f"File non trovato: {filename}"
+CAMERA_STATUS = "Stato telecamere"
 
 #Say tts function
 SPEAK_LANG = "it-IT"
 EMPTY_ARGS = "Errore manca parametri"
 SAY_COMMAND = "dici"
 
+#Play sound function
+PLAY_VOICE = "Riproduco questo"
+PLAY_COMMAND = "suono" # /suono
+
+INTENT_YES = "Si"
+INTENT_NO = "No"
+
+WAIT = "Operazione in corso..."
+
+
+def NOTIFY_ON(CAMNAME):
+    return f"Abilita avvisi {CAMNAME}"
+
+
+def NOTIFY_OFF(CAMNAME):
+    return f"Disabilita avvisi {CAMNAME}"
+
+
+def TURNING_ON(CAMNAME):
+    return f"Abilita {CAMNAME}"
+
+
+def TURNING_OFF(CAMNAME):
+    return f"Disabilita {CAMNAME}"
+
+
+def IMAGE(CAMNAME):
+    return f"{CAMNAME} Foto"
+
+
+def STATUS_OFFLINE(CAMNAME):
+    return f"<code>{CAMNAME}</code> è <code>offline</code>\n"
+
+
+def STATUS_DISABLED(CAMNAME):
+    return f"<code>{CAMNAME}</code> è <code>disabilitato</code>\n"
+
+
+def STATUS_ONLINE(CAMNAME, NOTIFY):
+    return f"<code>{CAMNAME}</code> è <code>online</code>, notifiche <code>{NOTIFY}</code>\n"
+
+
+#Play sound function
+def PLAYING_FILE(FILENAME):
+    return f"Riproduco file: <code>{FILENAME}</code>"
+
+
+def FILE_NOT_FOUND(FILENAME):
+    return f"File non trovato: <code>{FILENAME}</code>"
+
 
 def TTS_SAYING(TEXT):
-    return f"Dico {TEXT}"
+    return f"Dico <b><i>{TEXT}</i></b>"
 
 
-def SET_STATUS(NAME, STATUS):
-    return f"Impostando {NAME} {STATUS}..."
+def SET_STATUS_ON(CAMNAME):
+    return f"Abilitando <code>{CAMNAME}</code>..."
 
 
-def CAMERA_STATE(NAME, STATUS):
-    return f"{NAME} è {STATUS}"
+def SET_STATUS_OFF(CAMNAME):
+    return f"Disabilitando <code>{CAMNAME}</code>..."
 
 
-def CAMERA_SET_FAILED(NAME):
-    return f"Impostando {NAME} non riuscito"
+def SET_STATUS_FAILED():
+    return f"Operazione fallita"
+
+
+def CAMERA_SET_FAILED(CAMNAME):
+    return f"Impostando <code>{CAMNAME}</code> non riuscito"
