@@ -12,8 +12,8 @@ SAY_COMMAND = "say"
 PLAY_VOICE = "Playing this"
 PLAY_COMMAND = "sound" # /sound
 
-INTENT_YES = "Yes"
-INTENT_NO = "No"
+NOTIFICATION_YES = "Yes"
+NOTIFICATION_NO = "No"
 
 WAIT = "Elaborating..."
 

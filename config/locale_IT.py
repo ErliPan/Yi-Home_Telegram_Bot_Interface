@@ -12,8 +12,8 @@ SAY_COMMAND = "dici"
 PLAY_VOICE = "Riproduco questo"
 PLAY_COMMAND = "suono" # /suono
 
-INTENT_YES = "Si"
-INTENT_NO = "No"
+NOTIFICATION_YES = "Si"
+NOTIFICATION_NO = "No"
 
 WAIT = "Operazione in corso..."
 
