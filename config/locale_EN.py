@@ -15,7 +15,7 @@ PLAY_COMMAND = "sound" # /sound
 NOTIFICATION_YES = "🔔"
 NOTIFICATION_NO = "🔕"
 
-WAIT = "⏳Elaborating...⏳"
+WAIT = "⏳Elaborating...⌛️"
 
 def NOTIFY_ON(CAMNAME):
     return f"🔔Activate alert {CAMNAME}"

@@ -15,7 +15,7 @@ PLAY_COMMAND = "suono" # /suono
 NOTIFICATION_YES = "🔔"
 NOTIFICATION_NO = "🔕"
 
-WAIT = "⏳Operazione in corso...⏳"
+WAIT = "⏳Operazione in corso...⌛️"
 
 
 def NOTIFY_ON(CAMNAME):
