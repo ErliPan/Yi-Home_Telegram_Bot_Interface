@@ -55,13 +55,16 @@ class TelegramChat:
     
 
     def playSound(self, update: Update, context: CallbackContext):
-        print("self.playSoundCommand")
-        filename = SOUND_SAVE_PATH + update.message.text.replace(self.playSoundCommand, "") + ".wav"
-        if os.path.isfile(filename):
-            update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
-            self.camera.sendSound(filename)
+        text = update.message.text.replace(self.playSoundCommand, "")
+        if len(text) == 0:
+            update.message.reply_text(EMPTY_ARGS, parse_mode="HTML")
         else:
-            update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
+            filename = SOUND_SAVE_PATH + text + ".wav"
+            if os.path.isfile(filename):
+                update.message.reply_text(PLAYING_FILE(filename), parse_mode="HTML")
+                self.camera.sendSound(filename)
+            else:
+                update.message.reply_text(FILE_NOT_FOUND(filename), parse_mode="HTML")
 
 
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
