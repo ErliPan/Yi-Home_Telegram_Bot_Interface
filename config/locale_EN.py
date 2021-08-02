@@ -46,7 +46,7 @@ def STATUS_DISABLED(CAMNAME):
 
 
 def STATUS_ONLINE(CAMNAME, NOTIFY):
-    return f"✅<code>{CAMNAME}</code> is <code>online</code>, {NOTIFY}\n"
+    return f"✅<code>{CAMNAME}</code> is <code>online</code>, alerts {NOTIFY}\n"
 
 
 #Play sound function
