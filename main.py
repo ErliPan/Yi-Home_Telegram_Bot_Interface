@@ -8,6 +8,7 @@ from multiprocessing import Process
 from telegram import Update
 from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, CommandHandler
 import time, os, os.path
+from WebAPI import WebAPI
 
 class main:
 
@@ -35,7 +36,7 @@ class main:
         dispatcher.add_handler(CommandHandler(SAY_COMMAND, self.textToSpeech)) #TTS command
 
         botUpdater.start_polling()
-
+        WebAPI(self.cams)
         while True:
             self.deleteOldMedia(MEDIA_SAVE_PATH, MEDIA_RETENTION)
             self.updateStatus(force = False)
