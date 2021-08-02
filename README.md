@@ -3,7 +3,7 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 ***
 ## Features
 + Motion detection
-> Works by monitoring the a tmp file that is created only when the camera detects a motion
+> Works by monitoring a tmp file that is created only when the camera detects a motion
 
 + Get a picture from the camera
 > Uses the snapshot.sh functionality to get a real time picture
@@ -21,7 +21,7 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 > Same but limited to a single camera
 
 + Play any preconfigured sound to all cameras
-> Play any audio from a specified folder (default: sound/) use ffmpeg to convert it to the needed format
+> Play any audio from a specified folder (default: sound/). Use ffmpeg to convert it to the needed format
 
 + Play any preconfigured sound to a single camera
 > Same but limited to a single camera
@@ -64,6 +64,7 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 
 + A Raspberry/Docker or LXC Container/VM needs to be connected to the isolated network and to a network with internet access
 
++ There's 2 branches, one with a lot of emojis in the text and one with none
 
 ## How to use
 Edit config/config.py and add your bot api token and the cameras ip address and nickname and then run main.py
