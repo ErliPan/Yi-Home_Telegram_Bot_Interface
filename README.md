@@ -79,6 +79,7 @@ Edit config/config.py and add your bot api token and the cameras ip address and 
 
 ## Dependencies
 > https://github.com/python-telegram-bot/python-telegram-bot
+
 > urllib ftplib requests
 
 I'm not sure which one are already packaged with Python 3
