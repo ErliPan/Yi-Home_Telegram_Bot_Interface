@@ -6,7 +6,7 @@ class IPCam:
 
     def __init__(self, Notifyer, Camera, name, enabled = True, notification = True):
 
-        self.log = True
+        self.log = False
         self.recording = False
         self.startTime = time.time()
         self.name = name

@@ -15,7 +15,7 @@ class YiCam:
         self.ip = ip
         self.sensitivity = sensitivity
         self.connectFTP()
-        #self.switchCamera(switchOn)
+        self.switchCamera(switchOn)
 
 
     def connectFTP(self):
