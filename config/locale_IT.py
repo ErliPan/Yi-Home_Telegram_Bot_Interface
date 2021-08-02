@@ -73,7 +73,3 @@ def SET_STATUS_OFF(CAMNAME):
 
 def SET_STATUS_FAILED():
     return f"Operazione fallita"
-
-
-def CAMERA_SET_FAILED(CAMNAME):
-    return f"Impostando <code>{CAMNAME}</code> non riuscito"
