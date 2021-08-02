@@ -83,9 +83,6 @@ Edit config/config.py and add your bot api token and the cameras ip address and 
 > urllib ftplib requests
 
 I'm not sure which one are already packaged with Python 3
-<<<<<<< HEAD
 
 ***
 <img src="https://user-images.githubusercontent.com/45854343/127918977-686e2c31-c550-4d2c-bd4d-dcfeaf49085e.JPG" width="350px">
-=======
->>>>>>> 6158b815338ba5261f76aa01d5352bc1514041d2
