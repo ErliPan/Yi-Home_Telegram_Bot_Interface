@@ -17,11 +17,11 @@ INTENT_NO = "No"
 
 
 def NOTIFY_ON(CAMNAME):
-    return f"Abilita notifiche {CAMNAME}"
+    return f"Abilita avvisi {CAMNAME}"
 
 
 def NOTIFY_OFF(CAMNAME):
-    return f"Disabilita notifiche {CAMNAME}"
+    return f"Disabilita avvisi {CAMNAME}"
 
 
 def TURNING_ON(CAMNAME):
