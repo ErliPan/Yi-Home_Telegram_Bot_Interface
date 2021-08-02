@@ -1,7 +1,8 @@
 *.pyc
-config.py
+__pycache__
 __pycache__/*.pyc
 sound/*.wav
-__pycache__
-tts.py
 recording/*
+config.py
+utility
+utility*.py
