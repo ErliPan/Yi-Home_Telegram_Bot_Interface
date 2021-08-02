@@ -4,6 +4,7 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 ## Features
 ..* Motion detection
 > Works by monitoring the a tmp file that is created only when the camera detects a motion
+
 ..* Get a picture from the camera
 > Uses the snapshot.sh functionality to get a real time picture
 ..* Multi camera support
