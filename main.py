@@ -115,8 +115,13 @@ class main:
         for cam in self.cams:
             notifyAction = NOTIFY_OFF(cam.getName()) if cam.sendNotification() else NOTIFY_ON(cam.getName())
             onOffAction = TURNING_OFF(cam.getName()) if cam.isEnabled() else TURNING_ON(cam.getName())
+            
             if cam.isOnline():
-                keyboard.append([IMAGE(cam.getName()), notifyAction, onOffAction])
+                if cam.isEnabled():
+                    keyboard.append([IMAGE(cam.getName())])
+                    keyboard.append([notifyAction, onOffAction])
+                else:
+                    keyboard.append([onOffAction])
 
         keyboard.append([CAMERA_STATUS])
         return keyboard
