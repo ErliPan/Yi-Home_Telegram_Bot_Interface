@@ -1,7 +1,7 @@
 CAMERA_OFFLINE = "Camera offline"
 CAMERA_DISABLED = "Camera disabled"
 MOTION_DETECTED = "Movement detected"
-CAMERA_STATUS = "Cameras status"
+CAMERA_STATUS = "Cameras status📹"
 
 #Say tts function
 SPEAK_LANG = "en-US"
@@ -18,11 +18,11 @@ INTENT_NO = "No"
 WAIT = "Elaborating..."
 
 def NOTIFY_ON(CAMNAME):
-    return f"Activate alert {CAMNAME}"
+    return f"Activate alert {CAMNAME}🔔"
 
 
 def NOTIFY_OFF(CAMNAME):
-    return f"Disable alert {CAMNAME}"
+    return f"Disable alert {CAMNAME}🔕"
 
 
 def TURNING_ON(CAMNAME):
@@ -34,32 +34,32 @@ def TURNING_OFF(CAMNAME):
 
 
 def IMAGE(CAMNAME):
-    return f"{CAMNAME} Picture"
+    return f"📷{CAMNAME} Picture"
 
 
 def STATUS_OFFLINE(CAMNAME):
-    return f"<code>{CAMNAME}</code> is <code>offline</code>\n"
+    return f"⛔️<code>{CAMNAME}</code> is <code>offline</code>\n"
 
 
 def STATUS_DISABLED(CAMNAME):
-    return f"<code>{CAMNAME}</code> is <code>disabilitato</code>\n"
+    return f"⚠️<code>{CAMNAME}</code> is <code>disabilitato</code>\n"
 
 
 def STATUS_ONLINE(CAMNAME, NOTIFY):
-    return f"<code>{CAMNAME}</code> is <code>online</code>, alerts <code>{NOTIFY}</code>\n"
+    return f"✅<code>{CAMNAME}</code> is <code>online</code>, alerts <code>{NOTIFY}</code>\n"
 
 
 #Play sound function
 def PLAYING_FILE(FILENAME):
-    return f"Playing file: <code>{FILENAME}</code>"
+    return f"🔊Playing file: <code>{FILENAME}</code>"
 
 
 def FILE_NOT_FOUND(FILENAME):
-    return f"File not found: <code>{FILENAME}</code>"
+    return f"❌File not found: <code>{FILENAME}</code>"
 
 
 def TTS_SAYING(TEXT):
-    return f"Saying <b><i>{TEXT}</i></b>"
+    return f"📢 Saying <b><i>{TEXT}</i></b>"
 
 
 def SET_STATUS_ON(CAMNAME):
@@ -71,7 +71,7 @@ def SET_STATUS_OFF(CAMNAME):
 
 
 def SET_STATUS_FAILED():
-    return f"Failed operation"
+    return f"❌Failed operation"
 
 
 def CAMERA_SET_FAILED(CAMNAME):
