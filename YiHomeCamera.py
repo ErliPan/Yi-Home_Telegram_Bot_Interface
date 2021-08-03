@@ -95,7 +95,6 @@ class YiCam:
 
 
     def callbackVideoList(self, name = None, videoFunc = None, notification = True):
-        videoCount = 0
         self.ftp.cwd(self.videoPath)
         for folder in self.ftp.nlst():
             if folder != self.tmpFile:
