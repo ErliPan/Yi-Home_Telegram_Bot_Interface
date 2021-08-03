@@ -1,9 +1,5 @@
 class Dummy:
 
-    def __init__(self, config):
-        self.config = config
-
-
     def sendPhoto(self, media, caption="", reply_markup = None):
         print(f"SendPhoto {caption}")
 
