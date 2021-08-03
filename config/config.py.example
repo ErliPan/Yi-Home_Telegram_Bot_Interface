@@ -7,7 +7,7 @@ TOKEN_ALL = [
     "<<<TOKEN_SECONDARY>>>",
     ]
 
-CHATID = "<<<CHAT_ID>>>"
+CHATID = <<<CHAT_ID>>>
 
 SAY_COMMAND = "say"# /say
 PLAY_COMMAND = "play"# /play
