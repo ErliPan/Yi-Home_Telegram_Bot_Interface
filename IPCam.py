@@ -1,6 +1,6 @@
 import threading
 import time
-from config.config import *
+import config.config as CONFIG
 
 class IPCam:
 
@@ -86,7 +86,7 @@ class IPCam:
 
         self.counter = (self.counter + 1) % 100
         #Call itself after 1 sec
-        self.updateTimer = threading.Timer(1.0, self.update).start()
+        threading.Timer(1.0, self.update).start()
 
 
     def movementCheck(self):
@@ -137,9 +137,9 @@ class IPCam:
                     self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
                     return True
 
-            self.__sendMessage(CAMERA_OFFLINE)
+            self.__sendMessage(CONFIG.CAMERA_OFFLINE)
         else:
-            self.__sendMessage(CAMERA_DISABLED)
+            self.__sendMessage(CONFIG.CAMERA_DISABLED)
         return False
 
 
@@ -148,7 +148,7 @@ class IPCam:
         self.__sendMessage(MOTION_DETECTED)
         self.sendImage()
         """
-        self.sendImage(MOTION_DETECTED)
+        self.sendImage(CONFIG.MOTION_DETECTED)
 
 
     def __printLog(self, msg):
