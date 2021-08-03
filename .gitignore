@@ -1,8 +1,8 @@
 *.pyc
+*.wav
+*.jpg
+*.mp4
 __pycache__
-__pycache__/*.pyc
-sound/*.wav
-recording/*
 config.py
-utility
-utility/*.py
+convertAudio.py
+tts.py
