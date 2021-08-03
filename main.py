@@ -115,7 +115,7 @@ class main:
 
 
     def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):
-        if force and update.message.chat.id != CHATID:
+        if update != None and update.message.chat.id != CHATID:
             return #Ignore messages not from the chatid
         stat = self.__getOnlineStatus()
         if stat != self.cameraStatus or force:
