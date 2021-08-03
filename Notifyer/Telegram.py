@@ -1,6 +1,6 @@
 import telegram
 import random
-from config.config import *
+import config.config as CONFIG
 
 
 class Telegram:
@@ -8,7 +8,7 @@ class Telegram:
     def __init__(self):
         self.bots = []
 
-        for alt in TOKEN_ALL:
+        for alt in CONFIG.TOKEN_ALL:
             self.bots.append(telegram.Bot(alt))
 
 
@@ -20,7 +20,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendPhoto(CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendPhoto(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -30,6 +30,7 @@ class Telegram:
                 break
             except Exception as e:
                 print(f"Send failed pass to alt {e}")
+        return error
 
 
     def sendVideo(self, media, caption="", reply_markup = None):
@@ -40,7 +41,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendVideo(CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendVideo(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -50,6 +51,7 @@ class Telegram:
                 break
             except Exception as e:
                 print(f"Send failed pass to alt {e}")
+        return error
         
 
 
@@ -63,7 +65,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendMessage(CHATID, text, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendMessage(CONFIG.CHATID, text, parse_mode="HTML", reply_markup = reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:

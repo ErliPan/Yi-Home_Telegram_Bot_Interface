@@ -4,7 +4,7 @@ import io
 import os
 from ftplib import FTP, error_perm
 import time
-from config.config import *
+import config.config as CONFIG
 
 class YiCam:
 
@@ -40,7 +40,7 @@ class YiCam:
 
 
     def textToSpeech(self, text):
-        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={SPEAK_LANG}", text.encode('utf-8'))
+        requests.post(f"http://{self.ip}:8080/cgi-bin/speak.sh?lang={CONFIG.SPEAK_LANG}", text.encode('utf-8'))
     
 
     def sendSound(self, filename):
@@ -54,9 +54,9 @@ class YiCam:
 
         try:
             #Camera firmware bug, sometimes the settings are applied only on the second request
-            x = requests.get(url, timeout=SETTINGS_TIMEOUT)
+            x = requests.get(url, timeout=CONFIG.SETTINGS_TIMEOUT)
             if switchOn:
-                y = requests.get(url, timeout=SETTINGS_TIMEOUT)
+                y = requests.get(url, timeout=CONFIG.SETTINGS_TIMEOUT)
                 return x.status_code == 200 and y.status_code == 200
             else:
                 return x.status_code == 200
@@ -69,7 +69,7 @@ class YiCam:
         timeStamp = "yes" if timeStamp else "no"
 
         url = f"http://{self.ip}:8080/cgi-bin/snapshot.sh?res={highQuality}&watermark={timeStamp}"
-        response = requests.get(url, timeout=SNAPSHOT_TIMEOUT)
+        response = requests.get(url, timeout=CONFIG.SNAPSHOT_TIMEOUT)
         return io.BytesIO(response.content) if (response.headers.get("content-type") == "image/jpeg") else False
 
 
