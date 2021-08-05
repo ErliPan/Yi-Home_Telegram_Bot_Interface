@@ -144,10 +144,9 @@ class IPCam:
 
 
     def __movementTriggered(self):
-        """
-        self.__sendMessage(MOTION_DETECTED)
-        self.sendImage()
-        """
+        #self.__sendMessage(CONFIG.MOTION_DETECTED)
+        #self.sendImage()
+
         self.sendImage(CONFIG.MOTION_DETECTED)
 
 
@@ -161,7 +160,7 @@ class IPCam:
         if self.log:
             self.__printLog(f"Telegram-> {msg}")
         try:
-            self.Notifyer.sendMessage(f"{self.name}", f"{msg}", notification = self.notification)
+            self.Notifyer.sendMessage(f"{self.name}", f"{msg}")
         except Exception as e:
             self.__printLog(f"FAILED TO SEND: {msg} exception: {e}")
             time.sleep(5)
