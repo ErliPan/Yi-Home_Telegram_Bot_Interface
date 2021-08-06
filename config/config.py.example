@@ -15,6 +15,7 @@ PLAY_COMMAND = "play"# /play
 SNAPSHOT_TIMEOUT = 6
 SETTINGS_TIMEOUT = 18
 MEDIA_RETENTION = 7 #Delete photo/video after x days 0 for instant deletion
+VIDEO_COMPRESSION = False
 
 SOUND_SAVE_PATH = "<<<PROJECT PATH>>>/sound"
 
