@@ -13,7 +13,7 @@ class main:
 
     def __init__(self):
         #polymorphism (?)
-        self.notifyer = SaveVideo(Telegram(), CONFIG.MEDIA_SAVE_PATH)
+        self.notifyer = SaveVideo(Telegram(), CONFIG.MEDIA_SAVE_PATH, compressVideo = True)
         camera = YiCam
         self.cameraStatus = ""
         self.cams = []
