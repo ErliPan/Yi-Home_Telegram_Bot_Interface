@@ -127,7 +127,7 @@ class IPCam:
         if self.isEnabled():
 
             if self.isOnline():
-                res = self.Camera.getImage()
+                res = self.Camera.getImage(highQuality = CONFIG.VIDEO_COMPRESSION)
                 if res:
                     if force:
                         notification = True
