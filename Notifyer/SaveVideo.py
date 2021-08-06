@@ -5,28 +5,45 @@ from datetime import datetime
 
 class SaveVideo:
 
-    def __init__(self, Notifyer, folderPath, sendNotification = True):
+    def __init__(self, Notifyer, folderPath, compressVideo = False):
         self.Notifyer = Notifyer
         self.folderPath = folderPath
+        self.compressVideo = compressVideo
 
 
     def sendPhoto(self, media, caption="", reply_markup = None, notification = True):
-        with open(f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.jpg", "wb") as out:
+        fileName = f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.jpg"
+        with open(fileName, "wb") as out:
             out.write(media.read())
 
         if notification:
+            fileSize = (int(os.path.getsize(fileName) / 1000))
             media.seek(0) #Rewind
-            self.Notifyer.sendPhoto(media, caption, reply_markup)
+            self.Notifyer.sendPhoto(media, f"{caption} {fileSize} KB", reply_markup)
 
 
     def sendVideo(self, media, caption="", reply_markup = None, notification = True):
-        with open(f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.mp4", "wb") as out:
+        fileName = f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.mp4"
+        with open(fileName, "wb") as out:
             out.write(media.read())
 
         if notification:
-            media.seek(0) #Rewind
-            self.Notifyer.sendVideo(media, caption, reply_markup)
+            
+            if self.compressVideo:
+                fileName, media = self.__videoCompress(fileName)
+            else:
+                media.seek(0)  # Rewind
+            
+            fileSize = (int(os.path.getsize(fileName) / 1000))
+
+            self.Notifyer.sendVideo(media, f"{caption} {fileSize} KB", reply_markup)
 
 
     def sendMessage(self, title, message="", reply_markup = None):
         self.Notifyer.sendMessage(title, message, reply_markup)
+    
+
+    def __videoCompress(self, videoFile):
+        tmpFile =  videoFile.replace(".mp4", "_compressed.mp4")
+        os.system(f"ffmpeg -i file:\"{videoFile}\" -vcodec libx264 -preset veryfast -crf 30 -vf scale=960:-1 -r 5 file:\"{tmpFile}\"")
+        return tmpFile, io.open(tmpFile, "rb")
