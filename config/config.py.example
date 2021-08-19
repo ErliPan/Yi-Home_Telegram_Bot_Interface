@@ -51,5 +51,5 @@ for cam in CAMERAS:
 
 #Use the right one or create one for your language
 
-#from locale_IT import *
-from locale_EN import *
+#from config.locale_IT import *
+from config.locale_EN import *
