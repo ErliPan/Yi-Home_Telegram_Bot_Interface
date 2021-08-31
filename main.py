@@ -88,8 +88,6 @@ class main:
                 proc.append(Process(target=cam.textToSpeech, args=(text, )))
         for p in proc:
             p.start()
-        for p in proc:
-            p.join()
 
 
     def __playAudio(self, filename, cams):
@@ -100,8 +98,6 @@ class main:
                 proc.append(Process(target=cam.sendSound, args=(filename, )))
         for p in proc:
             p.start()
-        for p in proc:
-            p.join()
 
 
     def deleteOldMedia(self, path, olderThanDays):
