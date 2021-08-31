@@ -39,7 +39,7 @@ class main:
         while True:
             self.deleteOldMedia(CONFIG.MEDIA_SAVE_PATH, CONFIG.MEDIA_RETENTION)
             self.updateStatus(force = False)
-            time.sleep(10)
+            time.sleep(20)
 
     
     def textToSpeech(self, update: Update, context: CallbackContext):
@@ -114,16 +114,23 @@ class main:
                 print('{} removed'.format(f))
 
 
-    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True):
+    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 0):
         if update != None and update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
         stat = self.__getOnlineStatus()
-        if stat != self.cameraStatus or force:
+
+        if force:
             self.cameraStatus = stat
             try:
                 self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard())
             except Exception as e:
-                print(e) #If too many messages have been sent, an exception can occur #FIXME
+                print(e)
+
+        if stat != self.cameraStatus:
+            if count > CONFIG.STATE_CHANGE_DELAY:
+                self.updateStatus(Update, CallbackContext, force=True)
+            else:
+                self.updateStatus(Update, CallbackContext, count = count + 1)
 
 
     def __generateKeyboard(self):
