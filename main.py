@@ -39,7 +39,7 @@ class main:
         while True:
             self.deleteOldMedia(CONFIG.MEDIA_SAVE_PATH, CONFIG.MEDIA_RETENTION)
             self.updateStatus(force = False)
-            time.sleep(20)
+            time.sleep(10)
 
     
     def textToSpeech(self, update: Update, context: CallbackContext):
@@ -127,10 +127,10 @@ class main:
                 print(e)
 
         if stat != self.cameraStatus:
-            if count > CONFIG.STATE_CHANGE_DELAY:
-                self.updateStatus(Update, CallbackContext, force=True)
+            if count >= CONFIG.STATE_CHANGE_DELAY:
+                self.updateStatus(update, context, force=True)
             else:
-                self.updateStatus(Update, CallbackContext, count = count + 1)
+                self.updateStatus(update, context, count=count + 1)
 
 
     def __generateKeyboard(self):
