@@ -39,7 +39,6 @@ class main:
         while True:
             self.deleteOldMedia(CONFIG.MEDIA_SAVE_PATH, CONFIG.MEDIA_RETENTION)
             self.updateStatus(force = False)
-            time.sleep(10)
 
     
     def textToSpeech(self, update: Update, context: CallbackContext):
@@ -76,8 +75,6 @@ class main:
         #Convert to 16 bit mono
         os.system(f"ffmpeg -i {CONFIG.AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {CONFIG.AUDIO_TEMP_FILE}.wav -y")
         self.__playAudio(CONFIG.AUDIO_TEMP_FILE + ".wav", self.cams)
-        os.unlink(CONFIG.AUDIO_TEMP_FILE)
-        os.unlink(CONFIG.AUDIO_TEMP_FILE + ".wav")
 
 
     def __playTTS(self, text, cams):
@@ -110,7 +107,7 @@ class main:
                 print('{} removed'.format(f))
 
 
-    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 0):
+    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 1):
         if update != None and update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
         stat = self.__getOnlineStatus()
@@ -121,9 +118,11 @@ class main:
                 self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard())
             except Exception as e:
                 print(e)
+        else:
+            time.sleep(10)
 
         if stat != self.cameraStatus:
-            if count >= CONFIG.STATE_CHANGE_DELAY:
+            if count > CONFIG.STATE_CHANGE_DELAY:
                 self.updateStatus(update, context, force=True)
             else:
                 self.updateStatus(update, context, count=count + 1)
