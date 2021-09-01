@@ -78,7 +78,7 @@ Ditch Xiaomi's cloud and use a Telegram bot instead
 Edit config/config.py and add your bot api token and the cameras ip address and nickname and then run main.py
 
 ## Dependencies
-> ffmpeg
+> ffmpeg and 
 > https://github.com/python-telegram-bot/python-telegram-bot
 
 > urllib ftplib requests
