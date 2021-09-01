@@ -106,7 +106,7 @@ class YiCam:
                     print(urlPath)
                     videoObj = io.BytesIO(urllib.request.urlopen(urlPath).read())
                     if videoFunc:
-                        videoFunc(videoObj, name, notification=notification)
+                        videoFunc(videoObj, name, notification=notification, disable_notification=True)
                     self.ftp.delete(filePath)
                 try:
                     self.ftp.rmd(dirPath)

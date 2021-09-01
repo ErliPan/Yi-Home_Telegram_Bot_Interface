@@ -12,9 +12,9 @@ class Telegram:
             self.bots.append(telegram.Bot(alt))
 
 
-    def sendPhoto(self, media, caption="", reply_markup = None):
+    def sendPhoto(self, media, caption="", reply_markup = None, disable_notification = False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
 
         random.shuffle(self.bots)
         error = True
@@ -33,9 +33,9 @@ class Telegram:
         return error
 
 
-    def sendVideo(self, media, caption="", reply_markup = None):
+    def sendVideo(self, media, caption="", reply_markup = None, disable_notification = False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
 
         random.shuffle(self.bots)
         error = True
@@ -52,12 +52,11 @@ class Telegram:
             except Exception as e:
                 print(f"Send failed pass to alt {e}")
         return error
-        
 
 
-    def sendMessage(self, title, message="", reply_markup = None):
+    def sendMessage(self, title, message="", reply_markup = None, disable_notification = False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
 
         text = f"<strong>{title}</strong>\n{message}"
 

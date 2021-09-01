@@ -36,6 +36,8 @@ class main:
 
         botUpdater.start_polling()
 
+        self.updateStatus(force=False, disable_notification=True)
+
         while True:
             self.deleteOldMedia(CONFIG.MEDIA_SAVE_PATH, CONFIG.MEDIA_RETENTION)
             self.updateStatus(force = False)
@@ -46,9 +48,9 @@ class main:
             return #Ignore messages not from the chatid
         text = " ".join(context.args)
         if len(text) == 0:
-            update.message.reply_text(CONFIG.EMPTY_ARGS, parse_mode="HTML")
+            update.message.reply_text(CONFIG.EMPTY_ARGS, parse_mode="HTML", disable_notification=True)
         else:
-            update.message.reply_text(CONFIG.TTS_SAYING(text), parse_mode="HTML")
+            update.message.reply_text(CONFIG.TTS_SAYING(text), parse_mode="HTML", disable_notification=True)
             self.__playTTS(text, self.cams)
 
 
@@ -61,16 +63,16 @@ class main:
         else:
             filename = CONFIG.SOUND_SAVE_PATH + text + ".wav"
             if os.path.isfile(filename):
-                update.message.reply_text(CONFIG.PLAYING_FILE(filename), parse_mode="HTML")
+                update.message.reply_text(CONFIG.PLAYING_FILE(filename), parse_mode="HTML", disable_notification=True)
                 self.__playAudio(filename, self.cams)
             else:
-                update.message.reply_text(CONFIG.FILE_NOT_FOUND(filename), parse_mode="HTML")
+                update.message.reply_text(CONFIG.FILE_NOT_FOUND(filename), parse_mode="HTML", disable_notification=True)
 
 
     def playVoice(self, update: Update, context: CallbackContext):
         if update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
-        update.message.reply_text(CONFIG.PLAY_VOICE, parse_mode="HTML")
+        update.message.reply_text(CONFIG.PLAY_VOICE, parse_mode="HTML", disable_notification=True)
         update.message.effective_attachment.get_file().download(CONFIG.AUDIO_TEMP_FILE)
         #Convert to 16 bit mono
         os.system(f"ffmpeg -i {CONFIG.AUDIO_TEMP_FILE} -acodec pcm_s16le -ac 1 -ar 16000 {CONFIG.AUDIO_TEMP_FILE}.wav -y")
@@ -107,7 +109,7 @@ class main:
                 print('{} removed'.format(f))
 
 
-    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 1):
+    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 1, disable_notification=False):
         if update != None and update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
         stat = self.__getOnlineStatus()
@@ -115,7 +117,7 @@ class main:
         if force:
             self.cameraStatus = stat
             try:
-                self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard())
+                self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard(), disable_notification = disable_notification)
             except Exception as e:
                 print(e)
         else:
@@ -123,9 +125,9 @@ class main:
 
         if stat != self.cameraStatus:
             if count > CONFIG.STATE_CHANGE_DELAY:
-                self.updateStatus(update, context, force=True)
+                self.updateStatus(update, context, force=True, disable_notification = disable_notification)
             else:
-                self.updateStatus(update, context, count=count + 1)
+                self.updateStatus(update, context, count=count + 1, disable_notification = disable_notification)
 
 
     def __generateKeyboard(self):
