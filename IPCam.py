@@ -125,17 +125,15 @@ class IPCam:
 
     def sendImage(self, caption="", force = False):
         if self.isEnabled():
-
-            if self.isOnline():
+            try:
                 res = self.Camera.getImage(highQuality = not CONFIG.VIDEO_COMPRESSION)
-                if res:
-                    if force:
-                        notification = True
-                    else:
-                        notification = self.notification
-                    self.__printLog("Send photo")
-                    self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
-                    return True
+            except:
+                res = False
+            if res:
+                notification = True if res else self.notification
+                self.__printLog("Send photo")
+                self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
+                return True
 
             self.__sendMessage(CONFIG.CAMERA_OFFLINE)
         else:
