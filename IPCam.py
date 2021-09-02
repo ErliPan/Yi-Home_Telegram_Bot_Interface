@@ -127,7 +127,8 @@ class IPCam:
         if self.isEnabled():
             try:
                 res = self.Camera.getImage(highQuality = not CONFIG.VIDEO_COMPRESSION)
-            except:
+            except Exception as e:
+                self.__printLog(f"SEND IMAGE ISSUE EX: {e}")
                 res = False
             if res:
                 notification = True if res else self.notification
