@@ -131,7 +131,7 @@ class IPCam:
                 self.__printLog(f"SEND IMAGE ISSUE EX: {e}")
                 res = False
             if res:
-                notification = True if res else self.notification
+                notification = True if force else self.notification
                 self.__printLog("Send photo")
                 self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
                 return True
