@@ -2,6 +2,7 @@ from Notifyer.Telegram import Telegram
 from Notifyer.SaveVideo import SaveVideo
 from YiHomeCamera import YiCam
 from IPCam import IPCam
+from IPCamNoMonitor import IPCamNoMonitor
 from TelegramChat import TelegramChat
 import config.config as CONFIG
 from multiprocessing import Process
@@ -20,7 +21,11 @@ class main:
         self.cams = []
 
         for cam in CONFIG.CAMERAS:
-            self.cams.append(IPCam(self.notifyer, camera(cam[0], sensitivity = cam[2]), cam[1]))
+            if cam[3]:
+                self.cams.append(IPCam(self.notifyer, camera(cam[0], sensitivity = cam[2]), cam[1]))
+            else:
+                self.cams.append(IPCamNoMonitor(self.notifyer, camera(cam[0], sensitivity = cam[2]), cam[1]))
+
 
         botUpdater = Updater(CONFIG.TOKEN)
         dispatcher = botUpdater.dispatcher

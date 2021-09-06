@@ -31,11 +31,11 @@ MEDIA_SAVE_PATH = (MEDIA_SAVE_PATH + "/").replace("//", "/") #Make sure that a l
 
 
 
-#[IP_ADDRESS, NICKNAME, SENSITIVITY]
+#[IP_ADDRESS, NICKNAME, SENSITIVITY, MONITOR]
 
 CAMERAS = [
-    ["192.168.1.10", "camera_kitchen", "low"],
-    ["192.168.1.11", "camera_hall", "low"],
+    ["192.168.1.10", "camera_kitchen", "low", False],
+    ["192.168.1.11", "camera_hall", "low", True],
 ]
 
 
