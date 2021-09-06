@@ -7,7 +7,7 @@ Used only for camera with ultra-shitty connection
 Basically the camera can only send images with no motion alert
 """
 
-class IPCam:
+class IPCamNoMonitor:
 
     def __init__(self, Notifyer, Camera, name, enabled = True, notification = True):
 
