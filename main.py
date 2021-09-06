@@ -121,7 +121,7 @@ class main:
             except Exception as e:
                 print(e)
         else:
-            time.sleep(10)
+            time.sleep(15)
 
         if stat != self.cameraStatus:
             if count > CONFIG.STATE_CHANGE_DELAY:
