@@ -6,7 +6,7 @@ class IPCam:
 
     def __init__(self, Notifyer, Camera, name, enabled = True, notification = True):
 
-        self.log = False
+        self.log = True
         self.recording = False
         self.startTime = time.time()
         self.name = name
@@ -79,7 +79,7 @@ class IPCam:
                 self.__printLog(f"Camera disconnected exception: {e}")
                 self.Camera.disconnect()
         
-        elif self.counter % 14 == 0:
+        elif self.counter % 5 == 0:
             status = "SUCCESS" if self.Camera.connectFTP() else "FAIL"
             self.__printLog(f"Reconnecting result: {status}")
 
@@ -125,17 +125,16 @@ class IPCam:
 
     def sendImage(self, caption="", force = False):
         if self.isEnabled():
-
-            if self.isOnline():
+            try:
                 res = self.Camera.getImage(highQuality = not CONFIG.VIDEO_COMPRESSION)
-                if res:
-                    if force:
-                        notification = True
-                    else:
-                        notification = self.notification
-                    self.__printLog("Send photo")
-                    self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
-                    return True
+            except Exception as e:
+                self.__printLog(f"SEND IMAGE ISSUE EX: {e}")
+                res = False
+            if res:
+                notification = True if force else self.notification
+                self.__printLog("Send photo")
+                self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
+                return True
 
             self.__sendMessage(CONFIG.CAMERA_OFFLINE)
         else:

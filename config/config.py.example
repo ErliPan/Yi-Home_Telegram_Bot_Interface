@@ -12,6 +12,8 @@ CHATID = <<<CHAT_ID>>>
 SAY_COMMAND = "say"# /say
 PLAY_COMMAND = "play"# /play
 
+STATE_CHANGE_DELAY = 3
+
 SNAPSHOT_TIMEOUT = 6
 SETTINGS_TIMEOUT = 18
 MEDIA_RETENTION = 7 #Delete photo/video after x days 0 for instant deletion
@@ -51,5 +53,5 @@ for cam in CAMERAS:
 
 #Use the right one or create one for your language
 
-#from locale_IT import *
-from locale_EN import *
+#from config.locale_IT import *
+from config.locale_EN import *
