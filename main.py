@@ -1,10 +1,10 @@
 from Notifyer.Telegram import Telegram
 from Notifyer.SaveVideo import SaveVideo
-from YiHomeCamera import YiCam
+from YiHomeCamera import YiCam as camera
 from IPCam import IPCam
 from TelegramChat import TelegramChat
 import config.config as CONFIG
-import thread
+import threading
 from telegram import Update
 from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, CommandHandler
 import time, os, os.path
@@ -14,7 +14,6 @@ class main:
     def __init__(self):
         #polymorphism (?)
         self.notifyer = SaveVideo(Telegram(), CONFIG.MEDIA_SAVE_PATH, compressVideo = CONFIG.VIDEO_COMPRESSION)
-        camera = YiCam
         self.cameraStatus = ""
         self.cams = []
 
