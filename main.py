@@ -4,7 +4,7 @@ from YiHomeCamera import YiCam
 from IPCam import IPCam
 from TelegramChat import TelegramChat
 import config.config as CONFIG
-from multiprocessing import Process
+import thread
 from telegram import Update
 from telegram.ext import Updater, CallbackContext, MessageHandler, Filters, CommandHandler
 import time, os, os.path
@@ -80,22 +80,22 @@ class main:
 
 
     def __playTTS(self, text, cams):
-        #Use multiprocessing to send the command all at the same time
-        proc = []
+        #Use multithreading to send the command all at the same time
+        threads = []
         for cam in cams:
             if cam.isOnline():
-                proc.append(Process(target=cam.textToSpeech, args=(text, )))
-        for p in proc:
+                threads.append(threading.Thread(target=cam.textToSpeech, args=(text, )))
+        for p in threads:
             p.start()
 
 
     def __playAudio(self, filename, cams):
-        #Use multiprocessing to send the command all at the same time
-        proc = []
+        #Use multithreading to send the command all at the same time
+        threads = []
         for cam in cams:
             if cam.isOnline():
-                proc.append(Process(target=cam.sendSound, args=(filename, )))
-        for p in proc:
+                threads.append(threading.Thread(target=cam.sendSound, args=(filename, )))
+        for p in threads:
             p.start()
 
 
