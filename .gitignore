@@ -2,6 +2,7 @@
 *.wav
 *.jpg
 *.mp4
+cam.json
 __pycache__
 config.py
 convertAudio.py

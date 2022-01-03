@@ -4,18 +4,17 @@ import config.config as CONFIG
 
 class IPCam:
 
-    def __init__(self, Notifyer, Camera, name, enabled = True, notification = True):
+    def __init__(self, Notifyer, Camera, CameraSettings, name):
 
+        self.CameraSettings = CameraSettings
         self.log = True
         self.recording = False
         self.startTime = time.time()
         self.name = name
         self.Notifyer = Notifyer
-        self.Camera = Camera
+        self.Camera = Camera(self)
         self.recordingSize = -1
         self.counter = 1
-        self.enabled = enabled
-        self.notification = notification
         
         self.__printLog("Created")
 
@@ -28,22 +27,30 @@ class IPCam:
 
     def enableCam(self, enabled):
         self.__printLog(f"Set camera to {enabled}")
-        if self.Camera.switchCamera(enabled):
-            self.enabled = enabled
+        self.CameraSettings.setConfig(self.name, "enabled", enabled)
+        if self.Camera.updateCamera():
             return True
-        return False
+        else:
+            self.CameraSettings.setConfig(self.name, "enabled", not enabled)
+            return False
+    
+    def setConfig(self, param, value):
+        self.CameraSettings.setConfig(self.name, param, value)
+    
+    def getConfig(self, param):
+        return self.CameraSettings.getConfig(self.name, param)
 
 
     def sendNotification(self):
-        return self.notification
+        return self.getConfig("notification")
     
 
     def setNotification(self, sendNotificaton):
-        self.notification = sendNotificaton
+        self.setConfig("notification", sendNotificaton)
 
 
     def isEnabled(self):
-        return self.enabled
+        return self.getConfig("enabled")
 
 
     def isOnline(self):
@@ -116,7 +123,7 @@ class IPCam:
     def sendVideo(self):
         if self.isOnline():
             if self.isEnabled():
-                self.Camera.callbackVideoList(self.name, self.Notifyer.sendVideo, notification = self.notification)
+                self.Camera.callbackVideoList(self.name, self.Notifyer.sendVideo, notification = self.getConfig("notification"))
             else:
                 self.Camera.callbackVideoList()
         else:
@@ -131,7 +138,7 @@ class IPCam:
                 self.__printLog(f"SEND IMAGE ISSUE EX: {e}")
                 res = False
             if res:
-                notification = True if force else self.notification
+                notification = True if force else self.getConfig("notification")
                 self.__printLog("Send photo")
                 self.Notifyer.sendPhoto(res, f"{self.name} {caption}", notification = notification)
                 return True
@@ -143,9 +150,6 @@ class IPCam:
 
 
     def __movementTriggered(self):
-        #self.__sendMessage(CONFIG.MOTION_DETECTED)
-        #self.sendImage()
-
         self.sendImage(CONFIG.MOTION_DETECTED)
 
 

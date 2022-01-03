@@ -11,16 +11,15 @@ class Telegram:
         for alt in CONFIG.TOKEN_ALL:
             self.bots.append(telegram.Bot(alt))
 
-
-    def sendPhoto(self, media, caption="", reply_markup = None, disable_notification = False):
+    def sendPhoto(self, media, caption="", reply_markup=None, disable_notification=False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification=disable_notification)
 
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
             try:
-                bot.sendPhoto(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendPhoto(CONFIG.CHATID, media, caption=caption,parse_mode="HTML", reply_markup=reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -33,15 +32,15 @@ class Telegram:
         return error
 
 
-    def sendVideo(self, media, caption="", reply_markup = None, disable_notification = False):
+    def sendVideo(self, media, caption="", reply_markup=None, disable_notification=False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification=disable_notification)
 
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
             try:
-                bot.sendVideo(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendVideo(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup=reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -54,9 +53,9 @@ class Telegram:
         return error
 
 
-    def sendMessage(self, title, message="", reply_markup = None, disable_notification = False):
+    def sendMessage(self, title, message="", reply_markup=None, disable_notification=False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification=disable_notification)
 
         text = f"<strong>{title}</strong>\n{message}"
 
@@ -64,7 +63,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendMessage(CONFIG.CHATID, text, parse_mode="HTML", reply_markup = reply_markup)
+                bot.sendMessage(CONFIG.CHATID, text, parse_mode="HTML", reply_markup=reply_markup)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -74,6 +73,5 @@ class Telegram:
                 break
             except Exception as e:
                 print(f"Send failed pass to alt {e} {title}")
-        
         if error:
             raise Exception("Runned out of alt bot")

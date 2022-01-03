@@ -9,6 +9,8 @@ TOKEN_ALL = [
 
 CHATID = <<<CHAT_ID>>>
 
+PROJECT_PATH = "<<<PROJECT PATH>>>"
+
 SAY_COMMAND = "say"# /say
 PLAY_COMMAND = "play"# /play
 
@@ -19,36 +21,14 @@ SETTINGS_TIMEOUT = 18
 MEDIA_RETENTION = 7 #Delete photo/video after x days 0 for instant deletion
 VIDEO_COMPRESSION = False
 
-SOUND_SAVE_PATH = "<<<PROJECT PATH>>>/sound"
-
+SOUND_SAVE_PATH = PROJECT_PATH + "/sound"
 SOUND_SAVE_PATH = (SOUND_SAVE_PATH + "/").replace("//", "/") #Make sure that a leading / is always present no matter what
 
-AUDIO_TEMP_FILE = "audio_voice_file.mp4"
+AUDIO_TEMP_FILE = PROJECT_PATH + "/audio_voice_file.mp4"
+CAM_CONFIG_PATH = PROJECT_PATH + "/cam.json"
 
-MEDIA_SAVE_PATH = "<<<PROJECT PATH>>>/recording"
-
+MEDIA_SAVE_PATH = PROJECT_PATH + "/recording"
 MEDIA_SAVE_PATH = (MEDIA_SAVE_PATH + "/").replace("//", "/") #Make sure that a leading / is always present no matter what
-
-
-
-#[IP_ADDRESS, NICKNAME, SENSITIVITY]
-
-CAMERAS = [
-    ["192.168.1.10", "camera_kitchen", "low"],
-    ["192.168.1.11", "camera_hall", "low"],
-]
-
-
-#Add padding to match the camera with the longest name
-maxlen = 0
-for cam in CAMERAS:
-    if len(cam[1]) > maxlen:
-        maxlen = len(cam[1])
-
-for cam in CAMERAS:
-    if len(cam[1]) < maxlen:
-        cam[1] += (maxlen - len(cam[1])) * " "
-
 
 
 #Use the right one or create one for your language

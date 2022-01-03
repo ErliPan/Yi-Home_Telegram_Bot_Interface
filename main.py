@@ -1,8 +1,9 @@
 from Notifyer.Telegram import Telegram
 from Notifyer.SaveVideo import SaveVideo
-from YiHomeCamera import YiCam as camera
+from YiHomeCamera import YiCam as Camera
 from IPCam import IPCam
 from TelegramChat import TelegramChat
+from CameraSetting import CameraSetting
 import config.config as CONFIG
 import threading
 from telegram import Update
@@ -12,13 +13,18 @@ import time, os, os.path
 class main:
 
     def __init__(self):
+        CameraSettings = CameraSetting(CONFIG.CAM_CONFIG_PATH)
+        
         #polymorphism (?)
         self.notifyer = SaveVideo(Telegram(), CONFIG.MEDIA_SAVE_PATH, compressVideo = CONFIG.VIDEO_COMPRESSION)
         self.cameraStatus = ""
         self.cams = []
 
-        for cam in CONFIG.CAMERAS:
-            self.cams.append(IPCam(self.notifyer, camera(cam[0], sensitivity = cam[2]), cam[1]))
+        for name in CameraSettings.getAllConfigs():
+            enabled = CameraSettings.getConfig(name, "enabled")
+            notification = CameraSettings.getConfig(name, "notification")
+
+            self.cams.append(IPCam(self.notifyer, Camera, CameraSettings, name))
 
         botUpdater = Updater(CONFIG.TOKEN)
         dispatcher = botUpdater.dispatcher
