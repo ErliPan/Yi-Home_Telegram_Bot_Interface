@@ -7,7 +7,7 @@ class IPCam:
     def __init__(self, Notifyer, Camera, CameraSettings, name):
 
         self.CameraSettings = CameraSettings
-        self.log = False
+        self.log = True
         self.recording = False
         self.startTime = time.time()
         self.name = name
@@ -77,8 +77,10 @@ class IPCam:
         except Exception as e:
             print(f"Update error exception: {e}")
         
-        #Call itself after 1 sec
-        threading.Timer(1.0, self.update).start()
+        #Call itself after x sec
+        thread = threading.Timer(0.5, self.update)
+        thread.daemon = True
+        thread.start()
 
 
     def updateCycle(self):
@@ -98,10 +100,10 @@ class IPCam:
         
         elif self.counter % 4 == 0:
             status = "SUCCESS" if self.Camera.connectFTP() else "FAIL"
-            print(f"Reconnecting result: {status}")
 
 
         self.counter = (self.counter + 1) % 100
+        print(self.counter)
 
 
     def movementCheck(self):

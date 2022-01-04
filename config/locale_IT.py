@@ -13,6 +13,9 @@ PLAY_VOICE = "📢Riproduco questo"
 NOTIFICATION_YES = "🔔"
 NOTIFICATION_NO = "🔕"
 
+SAY_COMMAND = "dici"  # /say
+PLAY_COMMAND = "audio"  # /play
+
 WAIT = "⏳Operazione in corso...⌛️"
 
 
