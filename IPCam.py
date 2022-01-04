@@ -72,6 +72,16 @@ class IPCam:
 
 
     def update(self):
+        try:
+            self.updateCycle()
+        except Exception as e:
+            self.__printLog(f"Update error exception: {e}")
+        
+        #Call itself after 1 sec
+        threading.Timer(1.0, self.update).start()
+
+
+    def updateCycle(self):
         if self.Camera.isConnected():
             try:
                 if self.counter % 1 == 0:
@@ -92,8 +102,6 @@ class IPCam:
 
 
         self.counter = (self.counter + 1) % 100
-        #Call itself after 1 sec
-        threading.Timer(1.0, self.update).start()
 
 
     def movementCheck(self):

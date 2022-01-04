@@ -26,7 +26,8 @@ class main:
 
             self.cams.append(IPCam(self.notifyer, Camera, CameraSettings, name))
 
-        botUpdater = Updater(CONFIG.TOKEN)
+        botUpdater = Updater(CONFIG.TOKEN, request_kwargs={'read_timeout': 15, 'connect_timeout': 15})
+
         dispatcher = botUpdater.dispatcher
 
         #Make them start at the same time (more or less)
@@ -47,7 +48,7 @@ class main:
             self.deleteOldMedia(CONFIG.MEDIA_SAVE_PATH, CONFIG.MEDIA_RETENTION)
             self.updateStatus(force = False)
 
-    
+
     def textToSpeech(self, update: Update, context: CallbackContext):
         if update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
@@ -117,22 +118,26 @@ class main:
     def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 1, disable_notification=False):
         if update != None and update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
+
         stat = self.__getOnlineStatus()
 
-        if force:
+        if stat != self.cameraStatus and not force:
+            
+            if count > CONFIG.STATE_CHANGE_DELAY:
+                force = True
+            else:
+                time.sleep(15)
+                self.updateStatus(update, context, count=count + 1, disable_notification=disable_notification)
+            
+        elif force:
             self.cameraStatus = stat
             try:
-                self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard(), disable_notification = disable_notification)
+                self.notifyer.sendMessage(CONFIG.CAMERA_STATUS, self.cameraStatus, reply_markup=self.__generateKeyboard(), disable_notification=disable_notification)
             except Exception as e:
                 print(e)
+        
         else:
             time.sleep(15)
-
-        if stat != self.cameraStatus:
-            if count > CONFIG.STATE_CHANGE_DELAY:
-                self.updateStatus(update, context, force=True, disable_notification = disable_notification)
-            else:
-                self.updateStatus(update, context, count=count + 1, disable_notification = disable_notification)
 
 
     def __generateKeyboard(self):
