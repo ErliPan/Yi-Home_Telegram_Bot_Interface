@@ -24,9 +24,9 @@ class YiCam:
             self.ftp.login(user="root", passwd = "")
 
             if self.connected == False:
+                self.connected = True
                 self.updateCamera()
-
-            self.connected = True
+            
         except Exception as e:
             print(e)
             self.connected = False

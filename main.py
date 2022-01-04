@@ -115,7 +115,7 @@ class main:
                 print('{} removed'.format(f))
 
 
-    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 1, disable_notification=False):
+    def updateStatus(self, update: Update = None, context: CallbackContext = None, force = True, count = 0, disable_notification=False):
         if update != None and update.message.chat.id != CONFIG.CHATID:
             return #Ignore messages not from the chatid
 
@@ -126,7 +126,7 @@ class main:
             if count > CONFIG.STATE_CHANGE_DELAY:
                 force = True
             else:
-                time.sleep(15)
+                time.sleep(10)
                 self.updateStatus(update, context, count=count + 1, disable_notification=disable_notification)
             
         elif force:

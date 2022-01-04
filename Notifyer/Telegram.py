@@ -19,7 +19,7 @@ class Telegram:
         error = True
         for bot in self.bots:
             try:
-                bot.sendPhoto(CONFIG.CHATID, media, caption=caption,parse_mode="HTML", reply_markup=reply_markup, disable_notification=disable_notification)
+                bot.sendPhoto(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup=reply_markup, disable_notification=disable_notification)
                 error = False
                 break
             except telegram.error.TimedOut as e:

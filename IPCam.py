@@ -96,7 +96,7 @@ class IPCam:
                 print(f"Camera disconnected exception: {e}")
                 self.Camera.disconnect()
         
-        elif self.counter % 5 == 0:
+        elif self.counter % 4 == 0:
             status = "SUCCESS" if self.Camera.connectFTP() else "FAIL"
             print(f"Reconnecting result: {status}")
 
