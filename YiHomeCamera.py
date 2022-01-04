@@ -13,6 +13,7 @@ class YiCam:
 
     def __init__(self, IPCam):
         self.IPCam = IPCam
+        self.connected = False
         self.connectFTP()
         if self.connected:
             self.updateCamera()
