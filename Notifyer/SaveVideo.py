@@ -1,5 +1,6 @@
 import io
 import os
+import string
 from datetime import datetime
 
 
@@ -9,9 +10,12 @@ class SaveVideo:
         self.Notifyer = Notifyer
         self.folderPath = folderPath
         self.compressVideo = compressVideo
+    
+    def __randomString(self, len):
+        return "".join([random.choice(string.ascii_letters + string.digits) for i in range(len)])
 
     def sendPhoto(self, media, caption="", reply_markup=None, notification=True, disable_notification=False):
-        fileName = f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.jpg"
+        fileName = f"{self.folderPath}{datetime.today().strftime('%Y_%m_%d_%H-%M-%S')}-{self.__randomString(5)}.jpg"
         with open(fileName, "wb") as out:
             out.write(media.read())
 
@@ -21,7 +25,7 @@ class SaveVideo:
             self.Notifyer.sendPhoto(media, f"{caption} {fileSize} KB", reply_markup, disable_notification=disable_notification)
 
     def sendVideo(self, media, caption="", reply_markup=None, notification=True, disable_notification=False):
-        fileName = f"{self.folderPath}{datetime.today().strftime('%Y-%m-%d-%H:%M:%S')}.mp4"
+        fileName = f"{self.folderPath}{datetime.today().strftime('%Y_%m_%d_%H-%M-%S')}-{self.__randomString(5)}.mp4"
         with open(fileName, "wb") as out:
             out.write(media.read())
 
