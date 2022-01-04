@@ -13,13 +13,13 @@ class Telegram:
 
     def sendPhoto(self, media, caption="", reply_markup=None, disable_notification=False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification=disable_notification)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
 
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
             try:
-                bot.sendPhoto(CONFIG.CHATID, media, caption=caption,parse_mode="HTML", reply_markup=reply_markup)
+                bot.sendPhoto(CONFIG.CHATID, media, caption=caption,parse_mode="HTML", reply_markup=reply_markup, disable_notification=disable_notification)
                 error = False
                 break
             except telegram.error.TimedOut as e:
@@ -34,13 +34,13 @@ class Telegram:
 
     def sendVideo(self, media, caption="", reply_markup=None, disable_notification=False):
         if reply_markup != None:
-            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup, disable_notification=disable_notification)
+            reply_markup = telegram.ReplyKeyboardMarkup(reply_markup)
 
         random.shuffle(self.bots)
         error = True
         for bot in self.bots:
             try:
-                bot.sendVideo(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup=reply_markup)
+                bot.sendVideo(CONFIG.CHATID, media, caption=caption, parse_mode="HTML", reply_markup=reply_markup, disable_notification=disable_notification)
                 error = False
                 break
             except telegram.error.TimedOut as e:
