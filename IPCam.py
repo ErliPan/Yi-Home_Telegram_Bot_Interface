@@ -103,7 +103,6 @@ class IPCam:
 
 
         self.counter = (self.counter + 1) % 100
-        print(self.counter)
 
 
     def movementCheck(self):

@@ -126,7 +126,7 @@ class main:
             if count > CONFIG.STATE_CHANGE_DELAY:
                 force = True
             else:
-                time.sleep(10)
+                time.sleep(4)
                 self.updateStatus(update, context, count=count + 1, disable_notification=disable_notification)
             
         elif force:
@@ -137,7 +137,7 @@ class main:
                 print(e)
         
         else:
-            time.sleep(15)
+            time.sleep(8)
 
 
     def __generateKeyboard(self):

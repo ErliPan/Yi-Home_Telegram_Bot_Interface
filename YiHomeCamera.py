@@ -49,6 +49,7 @@ class YiCam:
     
 
     def sendSound(self, filename):
+        print(f"play {filename}")
         requests.post(f"http://{self.IPCam.getConfig('ip')}:8080/cgi-bin/speaker.sh", io.open(filename, "rb"))
 
     def updateCamera(self):
