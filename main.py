@@ -32,7 +32,8 @@ class main:
         dispatcher = botUpdater.dispatcher
 
         #Make them start at the same time (more or less)
-        for cam in self.cams:
+        #Sort them or the regex won't work
+        for cam in sorted(self.cams, key=lambda x: len(x.getName()), reverse=True):
             cam.start()
             TelegramChat(cam, dispatcher, self.updateStatus)
 
