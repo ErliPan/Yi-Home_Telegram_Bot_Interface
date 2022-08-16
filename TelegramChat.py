@@ -11,15 +11,15 @@ class TelegramChat:
         self.camera = camera
         self.updateStatus = callbackUpdate
         
-        self.sayCommand = f"/{CONFIG.SAY_COMMAND} {self.camera.name} "
-        self.playSoundCommand = f"/{CONFIG.PLAY_COMMAND} {self.camera.name} "
+        self.sayCommand = f"/{CONFIG.SAY_COMMAND} {self.camera.getName()} "
+        self.playSoundCommand = f"/{CONFIG.PLAY_COMMAND} {self.camera.getName()} "
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.NOTIFY_ON(self.camera.name)), self.enableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.NOTIFY_OFF(self.camera.name)), self.disableNotification))
-        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.TURNING_ON(self.camera.name)), self.enableCam))
-        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.TURNING_OFF(self.camera.name)), self.disableCam))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.NOTIFY_ON(self.camera.getName())), self.enableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.NOTIFY_OFF(self.camera.getName())), self.disableNotification))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.TURNING_ON(self.camera.getName())), self.enableCam))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.TURNING_OFF(self.camera.getName())), self.disableCam))
 
-        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.IMAGE(self.camera.name)), self.getImmagine))
+        dispatcher.add_handler(MessageHandler(Filters.regex(CONFIG.IMAGE(self.camera.getName())), self.getImmagine))
         dispatcher.add_handler(MessageHandler(Filters.regex(self.sayCommand), self.textToSpeech))
         dispatcher.add_handler(MessageHandler(Filters.regex(self.playSoundCommand), self.playSound))
 
@@ -56,9 +56,9 @@ class TelegramChat:
     def __setCamera(self, enabled, update: Update, context: CallbackContext):
         reply_markup = telegram.ReplyKeyboardMarkup([[CONFIG.WAIT]])
         if enabled:
-            update.message.reply_text(CONFIG.SET_STATUS_ON(self.camera.name), parse_mode="HTML", reply_markup = reply_markup)
+            update.message.reply_text(CONFIG.SET_STATUS_ON(self.camera.getName()), parse_mode="HTML", reply_markup = reply_markup)
         else:
-            update.message.reply_text(CONFIG.SET_STATUS_OFF(self.camera.name), parse_mode="HTML", reply_markup = reply_markup)
+            update.message.reply_text(CONFIG.SET_STATUS_OFF(self.camera.getName()), parse_mode="HTML", reply_markup = reply_markup)
 
         if self.camera.enableCam(enabled) == False:
             update.message.reply_text(CONFIG.SET_STATUS_FAILED(), parse_mode="HTML")

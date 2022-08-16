@@ -1,6 +1,7 @@
 from Notifyer.Telegram import Telegram
 from Notifyer.SaveVideo import SaveVideo
 from YiHomeCamera import YiCam as Camera
+#from DummyCamera import DummyCam as Camera
 from IPCam import IPCam
 from TelegramChat import TelegramChat
 from CameraSetting import CameraSetting
@@ -163,11 +164,11 @@ class main:
             if cam.isOnline():
                 if cam.isEnabled():
                     notification = CONFIG.NOTIFICATION_YES if cam.sendNotification() else CONFIG.NOTIFICATION_NO
-                    msg += CONFIG.STATUS_ONLINE(cam.name, notification)
+                    msg += CONFIG.STATUS_ONLINE(cam.getName(), notification)
                 else:
-                    msg += CONFIG.STATUS_DISABLED(cam.name)
+                    msg += CONFIG.STATUS_DISABLED(cam.getName())
             else:
-                msg += CONFIG.STATUS_OFFLINE(cam.name)
+                msg += CONFIG.STATUS_OFFLINE(cam.getName())
 
         return msg
 
